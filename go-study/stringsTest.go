@@ -102,3 +102,164 @@ func FieldsFunc(s string, f func(rune) bool) []string {
 	fmt.Printf("Field are: %q", strings.FieldsFunc("  foo1;bar2*baz3...", ft)) // Fields are: ["foo1" "bar2" "baz3"]
 	return strings.FieldsFunc(s, f)
 }
+
+// HasPrefix tests whether the string s begins with prefix
+func HasPrefix(s, prefix string) bool {
+	fmt.Println(strings.HasPrefix("*seafood", "*sea")) // ture
+	fmt.Println(strings.HasPrefix("saafood", "bar"))   // false
+	fmt.Println(strings.HasPrefix("seafood", ""))      // true
+	fmt.Println(strings.HasPrefix("", ""))             // true
+	return strings.HasPrefix(s, prefix)
+}
+
+// HasSuffix tests whether the string s ends with suffix
+func HasSuffix(s, suffix string) bool {
+	fmt.Println(strings.HasSuffix("*seafood", "food")) // true
+	fmt.Println(strings.HasSuffix("seafood", "bar"))   // false
+	fmt.Println(strings.HasSuffix("seafood", ""))      // true
+	fmt.Println(strings.HasSuffix("", ""))             // true
+	return strings.HasSuffix(s, suffix)
+}
+
+// Index returns the index of the first instance of sep in s, or -1 if sep is not present in s
+func Index(s, sep string) int {
+	fmt.Println(strings.Index("chicken", "ken"))       // 4
+	fmt.Println(strings.Index("chickenkenken", "ken")) // 4
+	fmt.Println(strings.Index("chicken", "dmr"))       // -1
+	fmt.Println(strings.Index("chicken", ""))          // 0
+	return strings.Index(s, sep)
+}
+
+// IndexAny returns the index of the first instance of any Unicode code point from chars in s
+// or -1 if no Unicode code point from chars is present in s
+func IndexAny(s, chars string) int {
+	fmt.Println(strings.IndexAny("chicken", "aeiouy"))    // 2
+	fmt.Println(strings.IndexAny("crwth", "aeiouy"))      // -1
+	fmt.Println(strings.IndexAny("crwth", "axrrrrrrrr"))  // 1
+	fmt.Println(strings.IndexAny("crwth", "acsxxxrrrrr")) // 0
+	return strings.IndexAny(s, chars)
+}
+
+// IndexByte returns the index of thr first instance of c in s
+// or -1 if c is not present in s
+func IndexByte(s string, c byte) int {
+	fmt.Println(strings.IndexByte("crwth", 99))  // 0
+	fmt.Println(strings.IndexByte("crwth", 114)) // 1
+	fmt.Println(strings.IndexByte("crwth", 67))  // -1
+	return strings.IndexByte(s, c)
+}
+
+// IndexFunc returns the index into s of the first Unicode code point satisfying f(c)
+// or -1 if none do
+func IndexFunc(s string, f func(rune) bool) int {
+	function := func(c rune) bool {
+		return unicode.Is(unicode.Han, c)
+	}
+
+	fmt.Println(strings.IndexFunc("Hello, 世界", function))    // 7
+	fmt.Println(strings.IndexFunc("Hello, world", function)) // -1
+	return strings.IndexFunc(s, f)
+}
+
+// IndexRune returns the index of thr first instance of the Unicode code point r
+// or -1 if rune is not present in s
+func IndexRune(s string, r rune) int {
+	fmt.Println(strings.IndexRune("chicken", 'c')) // 0
+	fmt.Println(strings.IndexRune("chicken", 99))  // 0
+	fmt.Println(strings.IndexRune("chicken", 'd')) // -1
+	return strings.IndexRune(s, r)
+}
+
+// Join concatenates the elements of a to create a single string
+// The separator string sep is placed between elements in the resulting string
+func Join(a []string, sep string) string {
+	s := []string{"foo", "bar", "baz"}
+	fmt.Println(strings.Join(s, ", ")) // foo, bar, baz
+	return strings.Join(a, sep)
+}
+
+// LastIndex returns the index of the last instance of sep in s
+// or -1 if sep is not present in s
+func LastIndex(s, sep string) int {
+	fmt.Println(strings.Index("go gopher", "go"))         // 0
+	fmt.Println(strings.LastIndex("go gopher", "go"))     // 3
+	fmt.Println(strings.LastIndex("go gopher", "rodent")) // -1
+	return strings.LastIndex(s, sep)
+}
+
+// LastIndexAny returns the index of the last instance of any Unicode code
+// point from chars in s, or -1 if no Unicode code point from chars is present in s
+func LastIndexAny(s, chars string) int {
+	fmt.Println(strings.LastIndexAny("gogopher", "go"))     // 3
+	fmt.Println(strings.LastIndexAny("gogopher", "ogh"))    // 5
+	fmt.Println(strings.LastIndexAny("gogopher", "gr"))     // 7
+	fmt.Println(strings.LastIndexAny("gogopher", "rodent")) // 7
+	return strings.LastIndexAny(s, chars)
+}
+
+// LastIndexByte returns the index of the last instance of c in s
+// or -f if c is not present in s
+func LastIndexByte(s string, c byte) int {
+	fmt.Println(strings.LastIndexByte("gogopher", 'o')) // 3
+	fmt.Println(strings.LastIndexByte("gogopher", 111)) // 3
+	fmt.Println(strings.LastIndexByte("gogopher", 112)) // 4
+	fmt.Println(strings.LastIndexByte("gogopher", 113)) // -1
+	return strings.LastIndexByte(s, c)
+}
+
+// LastIndexFunc returns the index into s of the last Unicode code point
+// satisfying f(c) or -1 if none do
+func LastIndexFunc(s string, f func(rune) bool) int {
+	function := func(c rune) bool {
+		return unicode.Is(unicode.Han, c)
+	}
+
+	fmt.Println(strings.LastIndexFunc("hello 世界", function))    // 10 一个汉字貌似占3个位置
+	fmt.Println(strings.LastIndexFunc("hello world", function)) // -1
+	return strings.LastIndexFunc(s, f)
+}
+
+// Map returns a copy of the the string s with all its characters modified according to the mapping
+// function if mapping returns a negative value, the character is dropped from the string with no replacement
+func Map(mapping func(rune) rune, s string) string {
+	rot13 := func(r rune) rune {
+		switch {
+		case r >= 'A' && r < 'Z':
+			return 'A' + (r-'A'+13)%26
+		case r >= 'a' && r <= 'z':
+			return 'a' + (r-'a'+13)%26
+		}
+		return r
+	}
+
+	fmt.Println(strings.Map(rot13, "'Twas brillig and the slithy gopher...")) // 'Gjnf oevyyvt naq fyvgul tbcure...
+}
+
+// Repeats returns a new string consisting of count copies of the string s
+func Repeat(s string, count int) string {
+	fmt.Println("ba " + strings.Repeat("na", 2)) // ba nana
+	return strings.Repeat(s, count)
+}
+
+// Replace returns a copy of the string s with the first n non-overlapping instances
+// of old replaced by new. if old is empty it matches at the beginning of the string
+// and after each UTF-8 sequence, yielding up to k+1 replacements for a k-rune string
+// if n < 0 there is not limit on the number of replacements
+func Replace(s, old, new string, n int) string {
+	fmt.Println(strings.Replace("oink oink oink", "k", "ky", 2))      //oinky oinky oink
+	fmt.Println(strings.Replace("oink oink oink", "oink", "moo", -1)) // moo moo moo
+	fmt.Println(strings.Replace("oink oink oink", "", "ky", 2))       // kyokyink oink oink
+	fmt.Println(strings.Replace("oink oink onik", "", "ky", -1))      // kyokyikynkykky kyokyikynkykky kyokyikynkykky
+	return strings.Replace(s, old, new, n)
+}
+
+// Split slices s into all substrings separated by sep and returns a slice 	of the substrings
+// between those serarators . if sep is enpty Split splits after each UTF-8 sequence . It is
+// equivalent to SplitN with a count of -1
+func Split(s, sep string) []string {
+	fmt.Printf("%q\n", strings.Split("a,b,c", ","))                        // ["a" "b" "c"]
+	fmt.Printf("%q\n", strings.Split("a man a plan a canal panama", "a ")) // ["" "man " "plan " "canal panama"]
+	fmt.Printf("%q\n", strings.Split(" xyz", ""))                          // [" " "x" "y" "z" " "]
+	fmt.Printf("%q\n", strings.Split("", "Bernardo O'Higgins"))            // [""]
+	return strings.Split(s, sep)
+}
