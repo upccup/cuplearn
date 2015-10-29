@@ -233,6 +233,7 @@ func Map(mapping func(rune) rune, s string) string {
 	}
 
 	fmt.Println(strings.Map(rot13, "'Twas brillig and the slithy gopher...")) // 'Gjnf oevyyvt naq fyvgul tbcure...
+	return strings.Map(mapping, s)
 }
 
 // Repeats returns a new string consisting of count copies of the string s
@@ -262,4 +263,103 @@ func Split(s, sep string) []string {
 	fmt.Printf("%q\n", strings.Split(" xyz", ""))                          // [" " "x" "y" "z" " "]
 	fmt.Printf("%q\n", strings.Split("", "Bernardo O'Higgins"))            // [""]
 	return strings.Split(s, sep)
+}
+
+// SplitN slices s into substrings separated by sep and returns a slices of the substrings
+// between those separators. if sep is empty, SplitN splits after each UTF-8 sequence.
+// The count determines the bunber of substrings to return
+func SplitN(s, sep string, n int) []string {
+	fmt.Println("%q\n", strings.SplitN("a,b,c", ",", 2)) // ["a" "b,c"]
+	z := strings.SplitN("a,b,c", ",", 0)
+	fmt.Println("%q (nil = %v)", z, z == nil) // [] (nil = true)
+	return strings.SplitN(s, sep, n)
+}
+
+// SplitAfter slices s into all substrings after each instance of sep and returns
+// a slice of those substrings. if sep is empty, SplitAfter splits after each UTF-8 sequence.
+// it is equivalents to SplitAfterN with a count of -1
+func SplitAfter(s, sep string) []string {
+	fmt.Printf("%q\n", strings.SplitAfter("a,b,c", ",")) // ["a," "b," "c"]
+	fmt.Printf("%q\n", strings.SplitAfter("a,b,c", ""))  // ["a" "," "b" "," "c"]
+	return strings.SplitAfter(s, sep)
+}
+
+// SplitAfterN slices s into substrings after each instance of sep and returns a slice of those substrings
+// if sep is enpty, SplitAfterN splits after each UTF-8 sequence The count deterrmines the number of
+// substrings to return
+// n > 0 : at most n substrings; the last substring will be the unsplit remainder
+// n = 0 : the result is nil (zero substrings)
+// n < 0 : all substrings
+func SplitAfterN(s, sep string, n int) []string {
+	fmt.Printf("%q\n", strings.SplitAfterN("a,b,c", ",", 1)) // ["a,b,c"]
+	fmt.Printf("%q\n", strings.SplitAfterN("a,b,c", ",", 2)) // ["a," "b,c"]
+	fmt.Printf("%q\n", strings.SplitAfterN("a,b,c", ",", 3)) // ["a," "b," "c"]
+	return strings.SplitAfterN(s, sep, n)
+}
+
+// Title returns a copy of the string s with all Unicode letters that begin words mapped to their title case
+// BUG(rsc) The rule Title uses for word boundaries does not handle Unicode puncyuation properly
+func Title(s string) string {
+	fmt.Println(strings.Title("her royal highness")) // Her royal Highness
+	return strings.Title(s)
+}
+
+// ToLower returns a copy of the string s with all Unicode letters mapped to their lower case
+func ToLower(s string) string {
+	fmt.Println(strings.ToLower("GoPher")) // gopher
+	return strings.ToLower(s)
+}
+
+// ToLowerSpecial returns a copy of the string s with all Unicode letters mapped to their lower case
+// giving priority to the special casing rules
+func ToLowerSpecial(_case unicode.SpecialCase, s string) string {
+	fmt.Println(strings.ToLowerSpecial(unicode.AzeriCase, "ŞĞÜÖIİ")) // şğüöıi
+	return strings.ToLowerSpecial(_case, s)
+}
+
+// ToTitle returns a copy of the string s with all Unicode letters mapped to their title case
+func ToTitle(s string) string {
+	fmt.Println(strings.ToTitle("loud noises")) // LOUD NOISES
+	fmt.Println(strings.ToTitle("хлеб"))        // ХЛЕБ
+	return strings.ToTitle(s)
+}
+
+// ToTitleSpecial returns a copy of the string s with all Unicode letters mapped to their title case
+// giving priority to the special casing rules
+func ToTitleSpecial(_case unicode.SpecialCase, s string) string {
+	fmt.Println(strings.ToTitleSpecial(unicode.AzeriCase, "şğüöıi")) // ŞĞÜÖIİ
+	return strings.ToTitleSpecial(_case, s)
+}
+
+// ToUpper returns a copy of the string s with all Unicode letters mapped to their upper case
+func ToUpper(s string) string {
+	fmt.Println(strings.ToUpper("GoPher")) // GOPHER
+	return strings.ToUpper(s)
+}
+
+//ToUpperSpecial returns a copy of thr string s with all Unicode letters mapped to their upper case
+// giving priority to the special casing rules
+func ToUpperSpecial(_case unicode.SpecialCase, s string) string {
+	fmt.Println(strings.ToUpperSpecial(unicode.AzeriCase, "şğüöıi")) // ŞĞÜÖIİ
+	return strings.ToUpperSpecial(_case, s)
+}
+
+// Trim returns a slice of the string s with all leading and trailing Unicode code points
+// contained in cutest removed
+func Trim(s string, cutest string) string {
+	fmt.Printf("[%q]\n", strings.Trim(" !!! Achtung! Achtung! !!! ", "! "))     // ["Achtung! Achtung"]
+	fmt.Printf("[%q]\n", strings.Trim(" !!! Achtung! Achtung! !!! @@@ ", "!@")) // [" !!! Achtung! Achtung! !!! @@@ "]
+	fmt.Printf("[%q]\n", strings.Trim(" !!! Achtung! Achtung! !!! ", ""))       // [" !!! Achtung! Achtung! !!! "]
+	fmt.Printf("[%q]\n", strings.Trim(" !!! Achtung! Achtung! !!! ", " "))      // ["!!! Achtung! Achtung! !!!"]
+	return strings.Trim(s, cutest)
+}
+
+// TrimFunc returns a slice of the string s with all leading adn trailing Unicode code point
+// c satisfying f(c) removed
+func TrimFunc(s string, f func(rune) bool) string {
+	inner_func := func(r rune) bool {
+		return r <= 'c' || r >= 'i'
+	}
+	fmt.Println(strings.TrimFunc("abcdefghijk", inner_func)) // defgh
+	return strings.TrimFunc(s, f)
 }
