@@ -363,3 +363,54 @@ func TrimFunc(s string, f func(rune) bool) string {
 	fmt.Println(strings.TrimFunc("abcdefghijk", inner_func)) // defgh
 	return strings.TrimFunc(s, f)
 }
+
+// TrimLeft returns a slice of the string s with alll leading Unicode code point
+// contained in cutset removed
+func TrimLeft(s string, cutset string) string {
+	fmt.Printf("[%q]\n", strings.TrimLeft(" !!! Achtung! Achtung! !!! ", "! "))     // ["Achtung! Achtung! !!! "]
+	fmt.Printf("[%q]\n", strings.TrimLeft(" !!! Achtung! Achtung! !!! @@@ ", "!@")) // [" !!! Achtung! Achtung! !!! @@@ "]
+	fmt.Printf("[%q]\n", strings.TrimLeft(" !!! Achtung! Achtung! !!! ", ""))       // [" !!! Achtung! Achtung! !!! "]
+	fmt.Printf("[%q]\n", strings.TrimLeft(" !!! Achtung! Achtung! !!! ", " "))      // ["!!! Achtung! Achtung! !!! "]
+	return strings.TrimLeft(s, cutset)
+}
+
+// TrimLeftFunc returns a slice of the string s with all leading Unicode code point
+// c satisfying f(c) removed
+func TrimLeftFunc(s string, f func(rune) bool) string {
+	inner_func := func(r rune) bool {
+		return r <= 'c' || r >= 'i'
+	}
+	fmt.Println(strings.TrimLeftFunc("abcdefghijk", inner_func))   // defghijk
+	fmt.Println(strings.TrimLeftFunc("agbcdefghijk", inner_func))  // gbcdefghijk
+	fmt.Println(strings.TrimLeftFunc("asgbcdefghijk", inner_func)) // gbcdefghijk
+	return strings.TrimLeftFunc(s, f)
+}
+
+// TrimRight returns a slice of the string s with all trailing Unicode code points
+// contained in cutset removed
+func TrimRight(s string, cutset string) string {
+	fmt.Printf("[%q]\n", strings.TrimRight(" !!! Achtung! Achtung! !!! ", "! "))     // [" !!! Achtung! Achtung"]
+	fmt.Printf("[%q]\n", strings.TrimRight(" !!! Achtung! Achtung! !!! @@@ ", "!@")) // [" !!! Achtung! Achtung! !!! @@@ "]
+	fmt.Printf("[%q]\n", strings.TrimRight(" !!! Achtung! Achtung! !!! ", ""))       // [" !!! Achtung! Achtung! !!! "]
+	fmt.Printf("[%q]\n", strings.TrimRight(" !!! Achtung! Achtung! !!! ", " "))      // [" !!! Achtung! Achtung! !!!"]
+	return strings.TrimRight(s, cutset)
+}
+
+// TrimRightFunc returns a slice of thr string s with all trailing Unicode points
+// c satisfying f(c) removed
+func TrimRightFunc(s string, f func(rune) bool) string {
+	fmt.Println(strings.TrimRightFunc("abcdefghijk", inner_func))     // abcdefgh
+	fmt.Println(strings.TrimRightFunc("agbcdefghijksa", inner_func))  // agbcdefgh
+	fmt.Println(strings.TrimRightFunc("asgbcdefghijkga", inner_func)) // asgbcdefghijkg
+	return strings.TrimRightFunc(s, f)
+}
+
+// TrimPrefix returns s without the provided leading prefix string. if s doesn't start with
+// prefix, s is returned unchanged
+func TrimPrefix(s, prefix string) string {
+	var s = "Goodbye,, world!"
+	fmt.Println(strings.TrimPrefix(s, "Goodbye,")) // , world!
+	fmt.Println(strings.TrimPrefix(s, "Howdy,"))   // Goodbye,, world!
+	fmt.Println(strings.TrimPrefix(s, "Goo"))      // dbye,, world!
+	return strings.TrimPrefix(s, prefix)
+}
