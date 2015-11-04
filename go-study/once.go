@@ -15,18 +15,18 @@ func main() {
 	}
 
 	for i := 0; i < 10; i++ {
-
 		go func() {
 			once.Do(onced)
 			fmt.Println("123")
 		}()
 	}
 
-	time.Sleep(4000)
+	time.Sleep(time.Second * 2)
 }
 
 func onces() {
 	fmt.Println("onces")
+	time.Sleep(time.Second * 5)
 }
 
 func onced() {
