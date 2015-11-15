@@ -5,6 +5,12 @@ import (
 	"reflect"
 )
 
+// 函数说明 ChanDir() 代表的信道类型方向
+// reflect.ChanDir 有三个常量成员
+// reflect.RecvDir 接收数据
+// reflect.SendDir 发送数据
+// reflect.BothDir 双向信道
+
 func main() {
 	var a chan int
 	func(c <-chan int) { // <-chan 表示的是信道接受数据
