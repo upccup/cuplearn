@@ -26,4 +26,18 @@ func main() {
 		}
 	}
 
+	/*
+		[USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND]
+		USER :    root
+		PID :    13677
+		%CPU :    1.7
+		%MEM :    0.7
+		VSZ :    408232
+		RSS :    31728
+		TTY :    ?
+		STAT :    Ssl
+		START :    Nov13
+		TIME :    64:25
+		COMMAND :    /usr/bin/cadvisor -logtostderr -port=9007
+	*/
 }
