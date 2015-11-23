@@ -18,3 +18,4 @@
 	运行命令 web 即可生成svg 文件
 	在浏览器中打开 svg 文件即可看淡CPU 状态分析图
 ```
+[参考文档](http://blog.golang.org/profiling-go-programs)
