@@ -17,3 +17,6 @@
   -ge  |  大于等于
   -le  |  小于等于
 
+* set -e : Exit immediately if a command exits with a non-zero status 如果有非0的结果直接退出脚本
+
+
