@@ -5,3 +5,15 @@
 	ifconfig -a | sed 's/[ \t].*//;/^\(lo\|\)$/d'   (Ubuntu 可用 CentOs会多个冒号)
 	ls /sys/class/net/ 
 ```
+
+* 脚本数值比较操作符
+
+  符号  |  说明
+  :---:|:-----:
+  -eq  |  等于
+  -ne  |  不等于
+  -gt  |  大于
+  -lt  |  小于
+  -ge  |  大于等于
+  -le  |  小于等于
+
