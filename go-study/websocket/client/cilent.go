@@ -6,10 +6,11 @@ import (
 	"net/url"
 	"time"
 
+	// cli "github.com/codegangsta/cli"
 	"github.com/gorilla/websocket"
 )
 
-var addr = flag.String("addr", "localhost:8080", "http service address")
+var addr = flag.String("addr", "localhost:9009", "http service address")
 
 func main() {
 	flag.Parse()
@@ -27,6 +28,7 @@ func main() {
 	go func() {
 		defer c.Close()
 		for {
+			log.Println()
 			_, message, err := c.ReadMessage()
 			if err != nil {
 				log.Println("read: ", err)
@@ -36,14 +38,14 @@ func main() {
 		}
 	}()
 
-	ticker := time.NewTicker(time.Second)
+	ticker := time.NewTicker(time.Second * 3)
 	defer ticker.Stop()
 
 	for t := range ticker.C {
-		err := c.WriteMessage(websocket.TextMessage, []byte(t.Second()))
+		err := c.WriteMessage(websocket.TextMessage, []byte(t.String()))
 		if err != nil {
 			log.Println("write: ", err)
-			break
+			time.Sleep(time.Second * 3)
 		}
 	}
 

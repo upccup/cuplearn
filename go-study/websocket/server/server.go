@@ -24,7 +24,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	for {
 		mt, message, err := c.ReadMessage()
 		if err != nil {
-			log.Panicln("read: ", err)
+			log.Println("read: ", err)
 			break
 		}
 
