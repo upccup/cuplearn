@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 	"time"
 )
 
@@ -17,6 +18,7 @@ func testerr(err chan<- error) {
 }
 
 func main() {
+	runtime.GOMAXPROCS(1)
 	chs := make([]chan int, 10)
 	for i := 0; i < 10; i++ {
 		chs[i] = make(chan int)
@@ -45,7 +47,6 @@ func main() {
 		case err := <-res:
 			fmt.Println(err)
 		default:
-
 		}
 	}
 }
