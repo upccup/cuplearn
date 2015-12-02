@@ -6,6 +6,8 @@ import (
 	"sync"
 )
 
+// 说明: 和协程 yield 作⽤用类似,Gosched 让出底层线程,将当前 goroutine 暂停,放回队列等 待下次被调度执⾏行
+
 func main() {
 	runtime.GOMAXPROCS(1)
 	wg := new(sync.WaitGroup)
