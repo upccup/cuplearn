@@ -14,6 +14,9 @@ func main() {
 	time.Sleep(time.Second * 3)
 	fmt.Println(time.Since(t)) // 3.00505111s
 
+	f := time.Now().Add(10 * time.Minute)
+	fmt.Println(time.Since(f)) // -9m59.999999805s
+
 	files, _ := ioutil.ReadDir("../")
 	for _, f := range files {
 		fmt.Printf("File %s modify %s ageo\n", f.Name(), time.Since(f.ModTime()))
