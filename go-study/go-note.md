@@ -35,3 +35,8 @@ default:
     error()
 }
 ```
+
+#### 秒的单位转换
+```
+milliseconds = seconds x 1,000
+```
