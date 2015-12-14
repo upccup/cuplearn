@@ -35,3 +35,16 @@ default:
     error()
 }
 ```
+
+#### 秒的单位转换
+Unit               | Symbol | Description 
+:-----------------:|:------:|:-------------------------------------: 
+nanosecond         |   ns   | 1 second = 1,000,000,000 nanoseconds
+microsecond        |   μs   | 1 second = 1,000,000 microseconds
+millisecond        |   ms   | 1 second = 1,000 milliseconds
+second             |sec or s| base unit of Time
+minute             |   min  | 1 minute = 60 seconds
+hour               |   hr   | 1 hours = 60 minutes
+day                |   d    | 1 day = 24 hours
+week               |   wk   | 1 week = 7 days
+fortnight          | 4tnite | 1 4tnite = 2 weeks or 14 days
