@@ -48,3 +48,15 @@ hour               |   hr   | 1 hours = 60 minutes
 day                |   d    | 1 day = 24 hours
 week               |   wk   | 1 week = 7 days
 fortnight          | 4tnite | 1 4tnite = 2 weeks or 14 days
+
+#### os file 参数说明
+ 参数          |        值        | 说明
+ :------------:|:----------------:|:--------------------------------------:
+ O_RDONLY      |syscall.O_RDONLY  | open the file read-only.
+ O_WRONLY      |syscall.O_WRONLY  | open the file write-only.
+ O_RDWR        |syscall.O_RDWR    | open the file read-write.
+ O_APPEND      |syscall.O_APPEND  | append data to the file when writing.
+ O_CREATE      |syscall.O_CREAT   | create a new file if none exists.
+ O_EXCL        |syscall.O_EXCL    | used with O_CREATE, file must not exist
+ O_SYNC        |syscall.O_SYNC    | open for synchronous I/O.
+ O_TRUNC       |syscall.O_TRUNC   | if possible, truncate file when opened.
