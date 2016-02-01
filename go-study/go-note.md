@@ -36,6 +36,8 @@ default:
 }
 ```
 
+### for select case 中如果使用break 只会break掉select而不会break掉外面的for
+
 #### 秒的单位转换
 Unit               | Symbol | Description 
 :-----------------:|:------:|:-------------------------------------: 
