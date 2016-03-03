@@ -19,4 +19,5 @@
 
 * set -e : Exit immediately if a command exits with a non-zero status 如果有非0的结果直接退出脚本
 
-
+* sudo apt-get install rng-tools && sudo rngd -r /dev/urandom
+  生成随机数, 帮助gpg生成key
