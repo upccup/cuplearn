@@ -5,7 +5,7 @@
      apt-get update 
      apt-get install reprero
      apt-get install createrepo 
-     apy-get install nginx
+     apt-get install nginx
     ```
  2. 修改 nginx 的配置文件 </br>
   * 先备份nginx 的默认配置文件 </br>
