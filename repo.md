@@ -110,7 +110,8 @@
     createrepo -p -d -o yum/centos/7/i386 yum/centos/5/i386 yum/centos/7/i386 yum/centos/5/i386
     createrepo -p -d -o yum/centos/7/x86_64 yum/centos/5/x86_64 yum/centos/7/x86_64 yum/centos/5/x86_64
    ```
- 3. 使用自检 repo 源安装程序
+ 3. 使用自建 repo 源安装程序 </br>
+
   * 修改本地配置文件 在本地 * /etc/yum.repos.d * 新建一个配置文件以 * .repo * 结尾 内容大致如下
    ```
     [upccup-yum]
@@ -129,7 +130,7 @@
   
   * 运行 * yum repolist * 就可以看到我们自定的repo 源了
 
-  [apt-get 文档参考] (https://www.digitalocean.com/community/tutorials/how-to-use-reprepro-for-a-secure-package-repository-on-ubuntu-14-04)
+  [apt-get 文档参考] (https://www.digitalocean.com/community/tutorials/how-to-use-reprepro-for-a-secure-package-repository-on-ubuntu-14-04) </br>
   [yum 文档参考] (http://www.xuebuyuan.com/1385625.html)
   
 
