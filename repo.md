@@ -2,11 +2,12 @@
 ### 准备工作: 安装文件服务器(nginx) reprepro(ubuntu/debin) createrepo(centos)
  1. 安装需要的工具和服务 </br>
     ```
-    apt-get update
-    apt-get install reprepro 
-    apt-get install createrepo
-    apt-get install nginx 
+     apt-get update 
+     apt-get install reprero
+     apt-get install createrepo 
+     apy-get install nginx
     ```
+    
  2. 修改 nginx 的配置文件 </br>
   * 先备份nginx 的默认配置文件 </br>
     ```
