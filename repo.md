@@ -95,3 +95,41 @@
    ```
    
    ##### 大功告成 !!!!!!!
+
+
+### 使用createrepo 创建 yum 源 (不带认证)
+1. 和 apt-get 源 一样也需要一个文件服务器 所以依旧在 /var/repositories/ 这个文件夹下进行操作
+2. yum并不能自己维护arch，即并不能自己区分i386还是x86_64，所以是单独放在不同的目录下 
+  * 创建 repo 源 目录
+   ```
+    $mkdir -p yum/centos/7/{i386,x86_64}
+   ```
+  * 将 rpm 文件拷贝到对应的目录下
+  * 初始化 repodate 信息
+   ```
+    createrepo -p -d -o yum/centos/7/i386 yum/centos/5/i386 yum/centos/7/i386 yum/centos/5/i386
+    createrepo -p -d -o yum/centos/7/x86_64 yum/centos/5/x86_64 yum/centos/7/x86_64 yum/centos/5/x86_64
+   ```
+ 3. 使用自检 repo 源安装程序
+  * 修改本地配置文件 在本地 * /etc/yum.repos.d * 新建一个配置文件以 * .repo * 结尾 内容大致如下
+   ```
+    [upccup-yum]
+    name=bsdmap-yum
+    baseurl=http://www.bsdmap.com/yum/centos/$releasever/$basearch/
+    enabled=1
+    gpgcheck=0
+    gpgkey=
+   ```
+  * [...] 代表这个库的名字必须是唯一的不可重复
+  * name=是这个库的说明, 只是一个字段说明 没有太大意义
+  * baseurl= 说明采取什么方式传输，具体路径在哪里，可以使用的方式有,file://，ftp://，http://等，关于baseurl中的变量，可以查看yum.conf 的手册：man yum.conf ，在手册的最后一段有详细描述
+  * enabled=1 说明启用这个更新库，0表示不启用 
+  * gpgcheck=1 表示使用gpg文件来检查软件包的签名
+  * gpgkey= 表示gpg文件所存放的位置，此处也可以有http方式的位置
+  
+  * 运行 * yum repolist * 就可以看到我们自定的repo 源了
+
+  [apt-get 文档参考] (https://www.digitalocean.com/community/tutorials/how-to-use-reprepro-for-a-secure-package-repository-on-ubuntu-14-04)
+  [yum 文档参考] (http://www.xuebuyuan.com/1385625.html)
+  
+
