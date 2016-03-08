@@ -35,6 +35,47 @@ default:
     error()
 }
 ```
+#### swtich case 中的 fallthrough 会强制执行后面的代码
+```
+  integer := 6
+  switch integer {
+  case 4:
+      fmt.Println("The integer was <= 4")
+      fallthrough
+  case 5:
+      fmt.Println("The integer was <= 5")
+      fallthrough
+  case 6:
+      fmt.Println("The integer was <= 6")
+      fallthrough
+  case 7:
+      fmt.Println("The integer was <= 7")
+      fallthrough
+  case 8:
+      fmt.Println("The integer was <= 8")
+      fallthrough
+  default:
+      fmt.Println("default case")
+  }
+  这段程序的输出是
+  The integer was <= 6
+  The integer was <= 7
+  The integer was <= 8
+  default case
+```
+
+#### if 语句条件判断语句里面允许声明一个变量,但是这个变量的作用域只在该条件逻辑快内, 在其他地方就不起作用
+```
+  // 计算获取值x,然后根据x返回的大小，判断是否大于10。
+  if x := computedValue(); x > 10 {
+      fmt.Println("x is greater than 10")
+  } else {
+      fmt.Println("x is less than 10")
+  }
+
+  //这个地方如果这样调用就编译出错了，因为x是条件里面的变量
+  fmt.Println(x)
+```
 
 ### for select case 中如果使用break 只会break掉select而不会break掉外面的for
 
