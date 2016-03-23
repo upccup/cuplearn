@@ -80,8 +80,8 @@ default:
 ### for select case 中如果使用break 只会break掉select而不会break掉外面的for
 
 #### 秒的单位转换
-Unit               | Symbol | Description 
-:-----------------:|:------:|:-------------------------------------: 
+Unit               | Symbol | Description
+:-----------------:|:------:|:-------------------------------------:
 nanosecond         |   ns   | 1 second = 1,000,000,000 nanoseconds
 microsecond        |   μs   | 1 second = 1,000,000 microseconds
 millisecond        |   ms   | 1 second = 1,000 milliseconds
@@ -103,3 +103,16 @@ fortnight          | 4tnite | 1 4tnite = 2 weeks or 14 days
  O_EXCL        |syscall.O_EXCL    | used with O_CREATE, file must not exist
  O_SYNC        |syscall.O_SYNC    | open for synchronous I/O.
  O_TRUNC       |syscall.O_TRUNC   | if possible, truncate file when opened.
+
+
+### 关于数组和slice
+  array 就是数组,通过 var arr [n]type 来定义, 在 [n]type 中,n表示数组的长度,
+type表示存储元素的类型.对数组的操作也是通过[]来进行读取和赋值.
+  由于长度也是数组类型的一部分, 因此 [3]int 与 [4]int 是不同的类型,数组也就不能改变长度. 数组之间的赋值是值得赋值,
+即当把一个数组作为参数传入函数的时候, 传入的其实是该数组的副本,而不是它的指针. 如果需要传入指针则需要用到slice.
+  slice 并不是真正意义上的动态数组, 而是一个引用类型. slice 总是指向一个底层 array, slice的声明也可以像 array 一样,只是不需要长度.
+  slice 是引用类型, 所以当引用改变其中元素的值时,其他引用都会改变改值.
+  从概念上来说 slice 像一个结构体, 这个结构体包含了三个元素:一个指针 -- 指向数组中 slice 指定的开始位置, 长度-- 即 slice 的长度
+最大长度 -- 也就是 slice 开始位置到数据的最后位置的长度.
+  channel，slice，map 都是引用类型, 作为参数传递是传值就可以改变内容, 但是如果需要改变 slice 的长度仍然需要传地址.
+
