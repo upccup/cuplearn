@@ -21,3 +21,6 @@
 
 * sudo apt-get install rng-tools && sudo rngd -r /dev/urandom
   生成随机数, 帮助gpg生成key
+
+* cd !$ 把上个命令的参数作为cd参数使用
+* cd - 返回进入此目录之前所在的目录
