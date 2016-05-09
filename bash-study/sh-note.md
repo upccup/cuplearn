@@ -30,7 +30,8 @@
 #### 启动
 * systemctl enable firewalld
 * systemctl start firewalld
-* systemctl status firewalld   // running
+* systemctl status firewalld   // running </br>
+
 ### 停止
 * systemctl disable firewalld
 * systemctl stop firewalld
