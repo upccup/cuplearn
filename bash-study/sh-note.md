@@ -24,3 +24,15 @@
 
 * cd !$ 把上个命令的参数作为cd参数使用
 * cd - 返回进入此目录之前所在的目录
+
+
+### centos 7 firewall 启动和停止命令
+#### 启动
+* systemctl enable firewalld
+* systemctl start firewalld
+* systemctl status firewalld   // running
+### 停止
+* systemctl disable firewalld
+* systemctl stop firewalld
+* systemctl status firewalld   // not running
+
