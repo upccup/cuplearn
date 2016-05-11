@@ -29,7 +29,8 @@ func ExampleClient_query() {
 	defer c.Close()
 
 	//q := client.NewQuery("SELECT * FROM ALERT_EVENTS ORDER BY time DESC LIMIT 5 OFFSET 40", "shurenyun", "ns")
-	q := client.NewQuery("SELECT * FROM ALERT_EVENTS", "shurenyun", "ns")
+	//q := client.NewQuery("SELECT * FROM ALERT_EVENTS", "shurenyun", "ns")
+	q := client.NewQuery("SELECT count(appname) FROM ALERT_EVENTS", "shurenyun", "ns")
 	if response, err := c.Query(q); err == nil && response.Error() == nil {
 		//fmt.Printf("%+v", response.Results)
 		bytes, err := json.Marshal(response.Results)
