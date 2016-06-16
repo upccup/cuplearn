@@ -82,3 +82,14 @@ DOCKER     all  --  anywhere             anywhere
 Chain DOCKER (1 references)
 ```
 则没问题
+
+##### 使用 du 命令查看当前目录下文件夹的大小(不递归支持看1级子目录)
+```
+    du -h --max-depth=1 ./    
+```
+
+##### 输入输出流重定向
+```
+    ./test < /etc/group > std.out 2> std.err
+    分别将 输入流重定向到 /etc/group 标准输出流重定向到文件 std.out 标准错误输出流重定向到文件 std.err
+```
