@@ -65,7 +65,7 @@
 #### 版本控制
   必须对API进行版本控制。版本控制可以快速迭代并避免无效的请求访问已更新的接入点。它也有助于帮助平滑过渡任何大范围的API版本变迁，这样就可以继续支持旧版本API。
   关于API的版本是否应该包含在URL或者请求头中 莫衷一是。从学术派的角度来讲，它应该出现在请求头中。然而版本信息出现在URL中必须保证不同版本资源的浏览器可浏览性（browser explorability).
-  API不可能完全稳定。变更不可避免，重要的是变更是如何被控制的。维护良好的文档、公布未来数月的deprecation计划，这些对于很多API来说都是一些可行的举措。它归根结底是看对于业界和API的潜在消费者是否合理。
+  API不可能完全稳定。变更不可避免，重要的是变更是如何被控制的。维护良好的文档、公布未来数月的deprecation计划，这些对于很多API来说都是一些可行的举措。它归根结底是看对于业界和API的潜在消费者是否合理。</br>
   参考文档: [API的版本是否应该包含在URL或者请求头中](http://stackoverflow.com/questions/389169/best-practices-for-api-versioning) </br>
             [approach that Stripe has taken to API versioning](https://stripe.com/docs/api#versioning)
 
@@ -74,12 +74,14 @@
 
 * 过滤:
     对每一个字段使用一个唯一查询参数，就可以实现过滤。 例如，当通过“/tickets”终端来请求一个票据列表时，你可能想要限定只要那些在售的票。这可以通过一个像 GET /tickets?state=open 这样的请求来实现。这里“state”是一个实现了过滤功能的查询参数。
+
 * 排序:
     跟过滤类似, 一个泛型参数排序可以被用来描述排序的规则. 为适应复杂排序需求，让排序参数采取逗号分隔的字段列表的形式，每一个字段前都可能有一个负号来表示按降序排序。我们看几个例子:
     ```
         GET /tickets?sort=-priority - 获取票据列表，按优先级字段降序排序
         GET /tickets?sort=-priority,created_at - 获取票据列表，按“priority”字段降序排序。在一个特定的优先级内，较早的票排在前面。
     ```
+    
 * 搜索:
     有时基本的过滤不能满足需求，这时你就需要全文检索的力量。或许你已经在使用  ElasticSearch 或者其它基于  Lucene 的搜索技术。当全文检索被用作获取某种特定资源的资源实例的机制时， 它可以被暴露在API中，作为资源终端的查询参数，我们叫它“q”。搜索类查询应当被直接交给搜索引擎，并且API的产出物应当具有同样的格式，以一个普通列表作为结果。
     把这些组合在一起，我们可以创建以下一些查询:
@@ -88,6 +90,7 @@
         GET /tickets?state=closed&sort=-updated_at - 获取最近更新并且状态为关闭的票。
         GET /tickets?q=return&state=open&sort=-priority,created_at - 获取优先级最高、最先创建的、状态为开放的票，并且票上有 'return' 字样。
     ```
+    
 * 一般查询的别名:
     为了使普通用户的API使用体验更加愉快， 考虑把条件集合包装进容易访问的RESTful 路径中。比如上面的，最近关闭的票的查询可以被包装成 GET /tickets/recently_closed
     
