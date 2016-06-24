@@ -126,47 +126,47 @@ API消费方存储的数据也减少了（因为它们存储的是小的标识�
 而他的可扩展性优势在你的主要需求是必须序列化一个内部数据进行输出展示时变得不相干。这里有张google趋势图，[比较XML API 和 JSON API](http://www.google.com/trends/explore?q=xml+api#q=xml%20api%2C%20json%20api&cmpt=q)的热度
 
 #### 字段名称书写格式的 snake_case vs camelCase
-    如果你在使用JSON (JavaScript Object Notation) 作为你的主要表示格式，正确的方法就是遵守JavaScript命名约定——对字段名称使用camelCase！如果你要走用各种语言建设客户端库的路线，最好使用它们惯用的命名约定.
-  C# & Java 使用[camelCase](https://en.wikipedia.org/wiki/CamelCase), python & ruby 使用[snake_case](https://en.wikipedia.org/wiki/Snake_case)。
-    资料：基于从2010年的[camelCase 和 snake_case的眼动追踪研究 (PDF)](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?tp=&arnumber=5521745)，
+  如果你在使用JSON (JavaScript Object Notation) 作为你的主要表示格式，正确的方法就是遵守JavaScript命名约定——对字段名称使用camelCase！如果你要走用各种语言建设客户端库的路线，最好使用它们惯用的命名约定.
+  C# & Java 使用[camelCase](https://en.wikipedia.org/wiki/CamelCase), python & ruby 使用[snake_case](https://en.wikipedia.org/wiki/Snake_case)。</br>
+  资料：基于从2010年的[camelCase 和 snake_case的眼动追踪研究 (PDF)](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?tp=&arnumber=5521745)，
   snake_case比驼峰更容易阅读20％！这种阅读上的影响会影响API的可勘探性和文档中的示例。
 
 #### 缺省情况下确保漂亮的打印和支持gzip
-    一个提供空白符压缩输出的API，从浏览器中查看结果并不美观。虽然一些有序的查询参数（如 ?pretty=true ）可以提供来使漂亮打印生效，一个默认情况下能进行漂亮打印的API更为平易近人。\
+  一个提供空白符压缩输出的API，从浏览器中查看结果并不美观。虽然一些有序的查询参数（如 ?pretty=true ）可以提供来使漂亮打印生效，一个默认情况下能进行漂亮打印的API更为平易近人.
   额外数据传输的成本是微不足道的，尤其是当你比较不执行gzip压缩的成本。
-    考虑一些用例：假设分析一个API消费者正在调试并且有自己的代码来打印出从API收到的数据——默认情况下这应是可读的。或者，如果消费者抓住他们的代码生成的URL，并直接从浏览器访问它——默认情况下这应是可读的。\
+    考虑一些用例：假设分析一个API消费者正在调试并且有自己的代码来打印出从API收到的数据——默认情况下这应是可读的。或者，如果消费者抓住他们的代码生成的URL，并直接从浏览器访问它——默认情况下这应是可读的.
   这些都是小事情。做好小事情会使一个API能被更愉快地使用！
 
 #### 如何处理额外传输的数据呢？
-    让我们看一个实际例子。我从GitHub API上拉取了一些数据，默认这些数据使用了漂亮打印（pretty print）。我也将做一些GZIP压缩后的对比。
-    ```
-        $ curl https://api.github.com/users/veesahni > with-whitespace.txt
-        $ ruby -r json -e 'puts JSON JSON.parse(STDIN.read)' < with-whitespace.txt > without-whitespace.txt
-        $ gzip -c with-whitespace.txt > with-whitespace.txt.gz
-        $ gzip -c without-whitespace.txt ? without-whitespace.txt.gz
-    ```
-    输出文件的大小如下：
-    ```
-        without-whitespace.txt - 1252 bytes
-        with-whitespace.txt - 1369 bytes
-        without-whitespace.txt.gz - 496 bytes
-        with-whitespace.txt.gz - 509 bytes
-    ```
+  让我们看一个实际例子。我从GitHub API上拉取了一些数据，默认这些数据使用了漂亮打印（pretty print）。我也将做一些GZIP压缩后的对比。
+  ```
+      $ curl https://api.github.com/users/veesahni > with-whitespace.txt
+      $ ruby -r json -e 'puts JSON JSON.parse(STDIN.read)' < with-whitespace.txt > without-whitespace.txt
+      $ gzip -c with-whitespace.txt > with-whitespace.txt.gz
+      $ gzip -c without-whitespace.txt ? without-whitespace.txt.gz
+  ```
+  输出文件的大小如下：
+  ```
+      without-whitespace.txt - 1252 bytes
+      with-whitespace.txt - 1369 bytes
+      without-whitespace.txt.gz - 496 bytes
+      with-whitespace.txt.gz - 509 bytes
+  ```
   在这个例子中，当未启用GZIP压缩时空格增加了8.5%的额外输出大小，而当启用GZIP压缩时这个比例是2.6%。
 另一方面，GZIP压缩节省了60%的带宽。由于漂亮打印的代价相对比较小，最好默认使用漂亮打印，并确保GZIP压缩被支持。
 关于这点想了解更多的话，Twitter发现当对他们的 [Streaming API](https://dev.twitter.com/streaming/overview) 开启GZIP支持后可以在某些情况获得 [80%的带宽节省](https://dev.twitter.com/blog/announcing-gzip-compression-streaming-apis) 。
   Stack Exchange甚至强制要求必须对API请求结果使用GZIP压缩（[never return a response that's not compressed](https://api.stackexchange.com/docs/compression)）。 
 
 #### 不要默认使用大括号封装，但要在需要的时候支持
-    许多API会像下面这样包裹他们的响应信息:
-    ```
-        {
-          "data" : {
-            "id" : 123,
-            "name" : "John"
-          }
+  许多API会像下面这样包裹他们的响应信息:
+  ```
+      {
+        "data" : {
+          "id" : 123,
+          "name" : "John"
         }
-    ```
+      }
+  ```
   有不少这样做的理由 - 更容易附加元数据或者分页信息，一些REST客户端不允许轻易的访问HTTP头信息，并且JSONP请求不能访问HTTP头信息.
   无论怎样，随着迅速被采用的标准，比如[CORS](http://www.w3.org/TR/cors/)和[Link header from RFC 5988](http://tools.ietf.org/html/rfc5988#page-6), 大括号封装开始变得不必要。
   我们应当默认不使用大括号封装，而仅在特殊情况下使用它，从而使我们的API面向未来。
@@ -186,10 +186,10 @@ API消费方存储的数据也减少了（因为它们存储的是小的标识�
   类似的，为了支持HTTP受限的客户端，可以允许一个特殊的查询参数“?envelope=true”来触发完整封装(没有JSONP回调函数)。
 
 #### 使用JSON 编码的 POST, PUT & PATCH 请求体
-  下面让我们考虑使用JSON作为API的输入。
+  下面让我们考虑使用JSON作为API的输入。</br>
   许多API在他们的API请求体中使用URL编码。URL编码正如它们听起来那样 - 将使用和编码URL查询参数时一样的约定，对请求体中的键值对进行编码。这很简单，被广泛支持而且实用。
-  然而，有几个问题使得URL编码不太好用。首先，它没有数据类型的概念。这迫使API从字符串中转换整数和布尔值。而且，它并没有真正的层次结构的概念。尽管有一些约定，可以用键值对构造出一些结构（比如给一个键增加“[]”来表示一个数组），但还是不能跟JSON原生的层次结构相比。
-  如果API很简单，URL编码可以满足需要。然而，复杂API应当严格对待他们的JSON格式的输入。不论哪种方式，选定一个并且整套API要保持一致。
+  然而，有几个问题使得URL编码不太好用。首先，它没有数据类型的概念。这迫使API从字符串中转换整数和布尔值。而且，它并没有真正的层次结构的概念。尽管有一些约定，可以用键值对构造出一些结构（比如给一个键增加“[]”来表示一个数组），但还是不能跟JSON原生的层次结构相比。</br>
+  如果API很简单，URL编码可以满足需要。然而，复杂API应当严格对待他们的JSON格式的输入。不论哪种方式，选定一个并且整套API要保持一致。</br>
   一个能接受JSON编码的POST, PUT 和 PATCH请求的API，应当也需要把Content-Type头信息设置为application/json，或者抛出一个415不支持的媒体类型（Unsupported Media Type）的HTTP状态码.
 
 #### 分页
