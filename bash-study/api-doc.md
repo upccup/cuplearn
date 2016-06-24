@@ -170,3 +170,137 @@ API消费方存储的数据也减少了（因为它们存储的是小的标识�
   有不少这样做的理由 - 更容易附加元数据或者分页信息，一些REST客户端不允许轻易的访问HTTP头信息，并且JSONP请求不能访问HTTP头信息.
   无论怎样，随着迅速被采用的标准，比如[CORS](http://www.w3.org/TR/cors/)和[Link header from RFC 5988](http://tools.ietf.org/html/rfc5988#page-6), 大括号封装开始变得不必要。
   我们应当默认不使用大括号封装，而仅在特殊情况下使用它，从而使我们的API面向未来。
+
+#### 特殊情况下该如何使用大括号封装?
+  有两种情况确实需要大括号封装 - 当API需要通过JSONP来支持跨域的请求时，或者当客户端没有能力处理HTTP头信息时
+  JSONP 请求附带有一个额外的查询参数(通常称为callback或jsonp) 表示了回调函数的名称。如果提供了这个参数，API应当切换至完整封装模式，这时它总是用200HTTP状态码作为响应，然后把真实的状态码放入JSON有效载荷中。任何被一并添加进响应中的额外的HTTP头信息都应当被映射到JSON字段中, 像这样:
+  ```
+    callback_function({
+      status_code: 200,
+      next_page: "https://..",
+      response: {
+        ... actual JSON response body ...
+      }
+    })
+  ```
+  类似的，为了支持HTTP受限的客户端，可以允许一个特殊的查询参数“?envelope=true”来触发完整封装(没有JSONP回调函数)。
+
+#### 使用JSON 编码的 POST, PUT & PATCH 请求体
+  下面让我们考虑使用JSON作为API的输入。
+  许多API在他们的API请求体中使用URL编码。URL编码正如它们听起来那样 - 将使用和编码URL查询参数时一样的约定，对请求体中的键值对进行编码。这很简单，被广泛支持而且实用。
+  然而，有几个问题使得URL编码不太好用。首先，它没有数据类型的概念。这迫使API从字符串中转换整数和布尔值。而且，它并没有真正的层次结构的概念。尽管有一些约定，可以用键值对构造出一些结构（比如给一个键增加“[]”来表示一个数组），但还是不能跟JSON原生的层次结构相比。
+  如果API很简单，URL编码可以满足需要。然而，复杂API应当严格对待他们的JSON格式的输入。不论哪种方式，选定一个并且整套API要保持一致。
+  一个能接受JSON编码的POST, PUT 和 PATCH请求的API，应当也需要把Content-Type头信息设置为application/json，或者抛出一个415不支持的媒体类型（Unsupported Media Type）的HTTP状态码.
+
+#### 分页
+  关于分页的正确使用方法是[RFC 5988 中介绍的链接标头](http://tools.ietf.org/html/rfc5988#page-6).
+  使用链接标头的API可以返回一系列线程的链接，API使用者无需自行生成链接。这在分页时[指针导向](https://developers.facebook.com/docs/graph-api/using-graph-api/#paging) 非常重要。下面是抓取自 [Github](https://developer.github.com/v3/#pagination)的正确使用链接标头的文件
+  不过这个并非完成版本，因为很多 API 喜欢返回额外信息，例如可用结果的总数。需要发送数量的 API 可用类似 X-Total-Count 的普通 HTTP 标头。
+
+#### 自动装载相关的资源描述
+  在很多种情况下，API的使用者需要加载和被请求资源相关的数据（或被请求资源引用的数据）。与要求使用者反复访问API来获取这些信息相比，允许在请求原始资源的同时一并返回和装载相关资源，将会带来明显的效率提升。
+  然而, 由于这样确实 [有悖于一些RESTful原则](http://idbentley.com/blog/2013/03/14/should-restful-apis-include-relationships/), 所以我们可以只使用一个内置的（或扩展）的查询参数来实现这一功能，来最小化与原则的背离。
+  这种情况下，“embed”将是一个逗号隔开的需要被内置的字段列表。点号可以用来表示子字段。例如:
+  ```
+    GET /ticket/12?embed=customer.name,assigned_user
+  ```
+  这将返回一个附带有详细内置信息的票据，如下:
+  ```
+    {
+      "id" : 12,
+      "subject" : "I have a question!",
+      "summary" : "Hi, ....",
+      "customer" : {
+        "name" : "Bob"
+      },
+      assigned_user: {
+       "id" : 42,
+       "name" : "Jim",
+      }
+    }
+  ```
+  当然，实现类似于这种功能的能力完全依赖于内在的复杂度。这种内置的做法很容易产生 [N+1 select](http://stackoverflow.com/questions/97197/what-is-the-n1-selects-issue) 问题。
+ 
+#### 重写/覆盖 HTTP 方法
+  一些HTTP客户端仅能处理简单的的GET和POST请求，为照顾这些功能有限的客户端，API需要一种方式来重写HTTP方法. 尽管没有一些硬性标准来做这事，但流行的惯例是接受一种叫 X-HTTP的请求头，重写是用一个字符串值包含PUT，PATCH或DELETE中的一个。
+  注意重写头应当仅接受POST请求，GET请求绝不应该 [更改服务器上的数据](http://programmers.stackexchange.com/questions/188860/why-shouldnt-a-get-request-change-data-on-the-server)!
+  
+#### 速率限 
+  为了防止滥用，标准的做法是给API增加某种类型的速率限制。[RFC 6585](http://tools.ietf.org/html/rfc6585) 中介绍了一个[HTTP状态码429](http://tools.ietf.org/html/rfc6585#section-4) 请求过多来实现这一点。
+  不论怎样，在用户实际受到限制之前告知他们限制的存在是很有用的。这是一个现在还缺乏标准的领域，但是已经有了一些流行的使用HTTP响应头信息的惯用方法。
+  最少时包含下列头信息(使用Twitter的[命名约定](https://dev.twitter.com/docs/rate-limiting/1.1) 来作为头信息，通常没有中间词的大写):
+  ```
+    X-Rate-Limit-Limit - 当期允许请求的次数
+    X-Rate-Limit-Remaining - 当期剩余的请求次数
+    X-Rate-Limit-Reset - 当期剩余的秒数
+  ```
+
+#### 为什么对X-Rate-Limit-Reset不使用时间戳而使用秒数?
+  一个时间戳包含了各种各样的信息，比如日期和时区，但它们却不是必需的。一个API使用者其实只是想知道什么时候能再次发起请求，对他们来说一个秒数用最小的额外处理回答了这个问题。同时规避了[时钟偏差](https://en.wikipedia.org/wiki/Clock_skew)的问题。
+  有些API给X-Rate-Limit-Reset使用UNIX时间戳(纪元以来的秒数)。不要这样做!
+  
+#### 为什么对X-Rate-Limit-Reset使用UNIX时间戳是不好的做法?
+  [HTTP 规范](https://www.w3.org/Protocols/rfc2616/rfc2616.txt) 已经[指定](https://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3) 使用[RFC 1123](http://www.ietf.org/rfc/rfc1123.txt) 的日期格式 (目前被使用在[日期](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.18), [If-Modified-Since](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.25) & [Last-Modified](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.29) HTTP头信息中)。如果我们打算指定一种使用某种形式时间戳的、新的HTTP头信息，我们应当遵循RFC 1123规定，而不是使用UNIX时间戳
+
+#### 认证
+  一个 RESTful API 应当是无状态的。这意味着认证请求应当不依赖于cookie或session。相反，每一个请求都应当携带某种类型的认证凭证
+  由于总是使用SSL，认证凭证能够被简化为一个随机产生的访问令牌，里面传入一个使用HTTP Basic Auth的用户名字段。这样做的极大的好处是，它是完全的浏览器可探测的 - 如果浏览器从服务器收到一个401未授权状态码，它仅需要一个弹出框来索要凭证即可。
+  然而，这种基于基本认证的令牌的认证方法，仅在满足下列情形时才可用，即用户可以把令牌从一个管理接口复制到API使用者环境。当这种情形不能成立时，应当使用[OAuth 2](http://oauth.net/2/)来产生安全令牌并传递给第三方。OAuth 2使用了[承载令牌(Bearer tokens)](https://tools.ietf.org/html/rfc6750) 并且依赖于SSL的底层传输加密。
+  一个需要支持JSONP的API将需要第三种认证方法，因为JSONP请求不能发送HTTP基本认证凭据(HTTP Basic Auth)或承载令牌(Bearer tokens) 。这种情况下，可以使用一个特殊的查询参数access_token。注意，使用查询参数token存在着一个固有的安全问题，即大多数的web服务器都会把查询参数记录到服务日志中。
+  这是值得的，所有上面三种方法都只是跨API边界两端的传递令牌的方式。实际的底层令牌本身可能都是相同的。
+
+#### 缓存
+  HTTP 提供了一套内置的缓存框架! 所有你必须做的是，包含一些额外的出站响应头信息，并且在收到一些入站请求头信息时做一点儿校验工作。
+  有两种方式: [ETag](https://en.wikipedia.org/wiki/HTTP_ETag)和[Last-Modified](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.29)
+  **ETag**: 当产生一个请求时, 包含一个HTTP 头，ETag会在里面置入一个和表达内容对应的哈希值或校验值。这个值应当跟随表达内容的变化而变化。现在，如果一个入站HTTP请求包含了一个If-None-Match头和一个匹配的ETag值，API应当返回一个304未修改状态码，而不是返回请求的资源。
+  **Last-Modified**: 基本上像ETag那样工作，不同的是它使用时间戳。在响应头中，Last-Modified包含了一个RFC 1123格式的时间戳，它使用If-Modified-Since来进行验证。注意，HTTP规范已经有了 [3 种不同的可接受的日期格式](https://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3) ，服务器应当准备好接收其中的任何一种
+
+#### 错误:
+  就像一个HTML错误页面给访问者展示了有用的错误信息一样，一个API应当以一种已知的可使用的格式来提供有用的错误信息。 错误的表示形式应当和其它任何资源没有区别，只是有一套自己的字段。
+  API应当总是返回有意义的HTTP状态代码。API错误通常被分成两种类型: 代表客户端问题的400系列状态码和代表服务器问题的500系列状态码。最简情况下，API应当把便于使用的JSON格式作为400系列错误的标准化表示。如果可能(意思是，如果负载均衡和反向代理能创建自定义的错误实体), 这也适用于500系列错误代码。
+  一个JSON格式的错误信息体应当为开发者提供几样东西 - 一个有用的错误信息，一个唯一的错误代码 (能够用来在文档中查询详细的错误信息) 和可能的详细描述。这样一个JSON格式的输出可能会像下面这样:
+  ```
+    {
+      "code" : 1234,
+      "message" : "Something bad happened :(",
+      "description" : "More details about the error here"
+    }
+  ```
+  对PUT, PATCH和POST请求进行错误验证将需要一个字段分解。下面可能是最好的模式：使用一个固定的顶层错误代码来验证错误，并在额外的字段中提供详细错误信息，就像这样:
+  ```
+    {
+      "code" : 1024,
+      "message" : "Validation Failed",
+      "errors" : [
+        {
+          "code" : 5432,
+          "field" : "first_name",
+          "message" : "First name cannot have fancy characters"
+        },
+        {
+           "code" : 5622,
+           "field" : "password",
+           "message" : "Password cannot be blank"
+        }
+      ]
+    }
+  ```
+
+#### HTTP 状态代码
+  HTTP定义了一套可以从API返回的[有意义的状态代码](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)。 这些代码能够用来帮助API使用者对不同的响应做出相应处理。我已经把你必然会用到的那些列成了一个简短的清单:
+  * 200 OK (成功) - 对一次成功的GET, PUT, PATCH 或 DELETE的响应。也能够用于一次未产生创建活动的POST
+  * 201 Created (已创建) - 对一次导致创建活动的POST的响应。 同时结合使用一个[位置头信息](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30)指向新资源的位置- Response to a POST that results in a creation. Should be combined with a [Location header](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30) pointing to the location of the new resource
+  * 204 No Content (没有内容) - 对一次没有返回主体信息(像一次DELETE请求)的请求的响应
+  * 304 Not Modified (未修改) - 当使用HTTP缓存头信息时使用304
+  * 400 Bad Request (错误的请求) - 请求是畸形的, 比如无法解析请求体
+  * 401 Unauthorized (未授权) - 当没有提供或提供了无效认证细节时。如果从浏览器使用API，也可以用来触发弹出一次认证请求
+  * 403 Forbidden (禁止访问) - 当认证成功但是认证用户无权访问该资源时
+  * 404 Not Found (未找到) - 当一个不存在的资源被请求时
+  * 405 Method Not Allowed (方法被禁止) - 当一个对认证用户禁止的HTTP方法被请求时
+  * 410 Gone (已删除) - 表示资源在终端不再可用。当访问老版本API时，作为一个通用响应很有用
+  * 415 Unsupported Media Type (不支持的媒体类型) - 如果请求中包含了不正确的内容类型
+  * 422 Unprocessable Entity (无法处理的实体) - 出现验证错误时使用
+  * 429 Too Many Requests (请求过多) - 当请求由于访问速率限制而被拒绝时
+
+#### 总结
+  一个API是一个给开发者使用的用户接口。要努力确保它不仅功能上可用，更要用起来愉快。
