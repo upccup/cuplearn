@@ -94,3 +94,80 @@
 * 一般查询的别名:
     为了使普通用户的API使用体验更加愉快， 考虑把条件集合包装进容易访问的RESTful 路径中。比如上面的，最近关闭的票的查询可以被包装成 GET /tickets/recently_closed
     
+#### 限制哪些字段由API返回
+  API的使用者并不总是需要一个资源的完整表示。选择返回字段的功能由来已久，它使得API使用者能够最小化网络阻塞，并加速他们对API的调用。
+  使用一个字段查询参数，它包含一个用逗号隔开的字段列表。
+  例如，下列请求获得的信息将刚刚足够展示一个在售票的有序列表:
+  ```
+    GET /tickets?fields=id,subject,customer_name,updated_at&state=open&sort=-updated_at
+  ```
+
+#### 更新和创建应该返回一个资源描述
+  一个 PUT, POST 或者 PATCH 调用可能会对指定资源的某些字段造成更改，而这些字段本不在提供的参数之列 (例如: created_at 或 updated_at 这两个时间戳)。 为了防止API使用者为了获取更新后的资源而再次调用该API，应当使API把更新(或创建)后的资源作为response的一部分来返回。
+  以一个产生创建活动的 POST 操作为例, 使用一个 [HTTP 201 状态代码](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.5) 然后包含一个 [Location header](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30) 来指向新生资源的URL。
+
+#### 关于是否应该HATEOAS
+  **注**: **HATEOAS** (Hypermedia as the Engine of Application State 超媒体作为应用程序状态引擎)
+    对于API消费方是否应该创建链接，或者是否应该将链接提供给API，有许多混杂的观点。RESTful的设计原则指定了[HATEOAS](http://apigee.com/about/blog/technology/hateoas-101-introduction-rest-api-style-video-slides) ，\
+    大致说明了与某个端点的交互应该定义在元数据(metadata)之中，这个元数据与输出结果一同到达，并不基于其他地方的信息。
+  虽然web逐渐依照HATEOAS类型的原则运作（我们打开一个网站首页并随着我们看到的页面中的链接浏览），我不认为我们已经准备好API的HATEOAS了。\
+  当浏览一个网站的时候，决定点击哪个链接是运行时做出的。然而，对于API，决定哪个请求被发送是在写API集成代码时做出的，并不是运行时。\
+  这个决定可以移交到运行时吗？当然可以，不过顺着这条路没有太多好处，因为代码仍然不能不中断的处理重大的API变化。\
+  也就是说，我认为HATEOAS做出了承诺，但是还没有准备好迎接它的黄金时间。为了完全实现它的潜能，需要付出更多的努力去定义围绕着这些原则的标准和工具。
+
+    目前而言，最好假定用户已经访问过输出结果中的文档&包含资源标识符，而这些API消费方会在制作链接的时候用到。关注标识符有几个优势——网络中的数据流减少了，\
+  API消费方存储的数据也减少了（因为它们存储的是小的标识符而不是包含标识符的URLs）。
+
+    同样的，在URL中提供本文倡导的版本号，对于在一个很长时间内API消费方存储资源标识符（而不是URLs），它更有意义。\ 
+  总之，标识符相对版本是稳定的，但是表示这一点的URL却不是的！
+
+#### 只返回JSON
+    是时候在API中丢弃XML了。XML冗长，难以解析，很难读，他的数据模型和大部分编程语言的数据模型 不兼容，\
+  而他的可扩展性优势在你的主要需求是必须序列化一个内部数据进行输出展示时变得不相干。
+    这里有张google趋势图，[比较XML API 和 JSON API](http://www.google.com/trends/explore?q=xml+api#q=xml%20api%2C%20json%20api&cmpt=q)的热度
+
+#### 字段名称书写格式的 snake_case vs camelCase
+    如果你在使用JSON (JavaScript Object Notation) 作为你的主要表示格式，正确的方法就是遵守JavaScript命名约定——对字段名称使用camelCase！如果你要走用各种语言建设客户端库的路线，最好使用它们惯用的命名约定.\
+  C# & Java 使用[camelCase](https://en.wikipedia.org/wiki/CamelCase), python & ruby 使用[snake_case](https://en.wikipedia.org/wiki/Snake_case)。
+    资料：基于从2010年的[camelCase 和 snake_case的眼动追踪研究 (PDF)](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?tp=&arnumber=5521745)，\
+  snake_case比驼峰更容易阅读20％！这种阅读上的影响会影响API的可勘探性和文档中的示例。
+
+#### 缺省情况下确保漂亮的打印和支持gzip
+    一个提供空白符压缩输出的API，从浏览器中查看结果并不美观。虽然一些有序的查询参数（如 ?pretty=true ）可以提供来使漂亮打印生效，一个默认情况下能进行漂亮打印的API更为平易近人。\
+  额外数据传输的成本是微不足道的，尤其是当你比较不执行gzip压缩的成本。
+    考虑一些用例：假设分析一个API消费者正在调试并且有自己的代码来打印出从API收到的数据——默认情况下这应是可读的。或者，如果消费者抓住他们的代码生成的URL，并直接从浏览器访问它——默认情况下这应是可读的。\
+  这些都是小事情。做好小事情会使一个API能被更愉快地使用！
+
+#### 如何处理额外传输的数据呢？
+    让我们看一个实际例子。我从GitHub API上拉取了一些数据，默认这些数据使用了漂亮打印（pretty print）。我也将做一些GZIP压缩后的对比。
+    ```
+        $ curl https://api.github.com/users/veesahni > with-whitespace.txt
+        $ ruby -r json -e 'puts JSON JSON.parse(STDIN.read)' < with-whitespace.txt > without-whitespace.txt
+        $ gzip -c with-whitespace.txt > with-whitespace.txt.gz
+        $ gzip -c without-whitespace.txt ? without-whitespace.txt.gz
+    ```
+    输出文件的大小如下：
+    ```
+        without-whitespace.txt - 1252 bytes
+        with-whitespace.txt - 1369 bytes
+        without-whitespace.txt.gz - 496 bytes
+        with-whitespace.txt.gz - 509 bytes
+    ```
+    在这个例子中，当未启用GZIP压缩时空格增加了8.5%的额外输出大小，而当启用GZIP压缩时这个比例是2.6%。\
+  另一方面，GZIP压缩节省了60%的带宽。由于漂亮打印的代价相对比较小，最好默认使用漂亮打印，并确保GZIP压缩被支持。\
+  关于这点想了解更多的话，Twitter发现当对他们的 [Streaming API](https://dev.twitter.com/streaming/overview) 开启GZIP支持后可以在某些情况获得 [80%的带宽节省](https://dev.twitter.com/blog/announcing-gzip-compression-streaming-apis) 。\
+  Stack Exchange甚至强制要求必须对API请求结果使用GZIP压缩（[never return a response that's not compressed](https://api.stackexchange.com/docs/compression)）。 
+
+#### 不要默认使用大括号封装，但要在需要的时候支持
+    许多API会像下面这样包裹他们的响应信息:
+    ```
+        {
+          "data" : {
+            "id" : 123,
+            "name" : "John"
+          }
+        }
+    ```
+    有不少这样做的理由 - 更容易附加元数据或者分页信息，一些REST客户端不允许轻易的访问HTTP头信息，并且JSONP请求不能访问HTTP头信息。\
+  无论怎样，随着迅速被采用的标准，比如[CORS](http://www.w3.org/TR/cors/)和[Link header from RFC 5988](http://tools.ietf.org/html/rfc5988#page-6), 大括号封装开始变得不必要。
+    我们应当默认不使用大括号封装，而仅在特殊情况下使用它，从而使我们的API面向未来。
