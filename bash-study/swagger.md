@@ -24,3 +24,6 @@ API-DOC 工具 swagger部署和使用文档
    需要注意的一点是, 我们在 swagger-editor中编辑的是yaml文档, 但是在swagger-ui中展示的需要 json文档, 但是swagger-editor会自动根据yaml文档生成json文档
    编辑完后可以再 swagger-editor 的左上角选择 download json. 现在完成之后可以将json 文件提交,通过swagger-ui 可以查看最新编辑的文档. 为了方便协作编辑和后序修改的需要建议在提交json文档的同事也提交一份 yaml格式的文档
    ![下载文档](./swagger-pic/download.png)
+5. 语法参考 </br>
+   [语法及可用的数据类型](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md) </br>
+   [数人云API文档参考](https://github.com/Dataman-Cloud/omega-api-docs/blob/master/apiv3/api-doc.yaml)
