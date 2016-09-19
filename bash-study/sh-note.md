@@ -27,6 +27,9 @@
 
 
 ### centos 7 firewall 启动和停止命令
+
+#### 安装
+ yum install iptables-services -y
 #### 启动
 * systemctl enable firewalld
 * systemctl start firewalld
