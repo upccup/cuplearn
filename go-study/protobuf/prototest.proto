@@ -1,0 +1,24 @@
+package main;
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+message TestMessage {
+  required string clientName = 1 [(gogoproto.nullable) = false];
+  required int32 clientId = 2 [(gogoproto.nullable) = false];
+  optional string description = 3 [(gogoproto.nullable) = false];
+  repeated MsgItem messageitems = 4 [(gogoproto.nullable) = false];
+
+  enum ItemType {
+    TypeX = 0;
+    TypeY = 1;
+    TypeZ = 2;
+  }
+
+   message MsgItem {
+    required int32 id = 1 [(gogoproto.nullable) = false];
+    optional string itemName = 2 [(gogoproto.nullable) = false];
+    optional int32 itemValue = 3 [(gogoproto.nullable) = false];
+    optional ItemType itemType = 4 [(gogoproto.nullable) = false];
+   }
+}
+
