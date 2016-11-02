@@ -3,13 +3,13 @@
 // DO NOT EDIT!
 
 /*
-Package main is a generated protocol buffer package.
+	Package main is a generated protocol buffer package.
 
-It is generated from these files:
-	prototest.proto
+	It is generated from these files:
+		prototest.proto
 
-It has these top-level messages:
-	TestMessage
+	It has these top-level messages:
+		TestMessage
 */
 package main
 
@@ -17,6 +17,16 @@ import proto "github.com/gogo/protobuf/proto"
 import fmt "fmt"
 import math "math"
 import _ "github.com/gogo/protobuf/gogoproto"
+
+import bytes "bytes"
+
+import strings "strings"
+import github_com_gogo_protobuf_proto "github.com/gogo/protobuf/proto"
+import sort "sort"
+import strconv "strconv"
+import reflect "reflect"
+
+import io "io"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -81,34 +91,6 @@ func (m *TestMessage) String() string            { return proto.CompactTextStrin
 func (*TestMessage) ProtoMessage()               {}
 func (*TestMessage) Descriptor() ([]byte, []int) { return fileDescriptorPrototest, []int{0} }
 
-func (m *TestMessage) GetClientName() string {
-	if m != nil {
-		return m.ClientName
-	}
-	return ""
-}
-
-func (m *TestMessage) GetClientId() int32 {
-	if m != nil {
-		return m.ClientId
-	}
-	return 0
-}
-
-func (m *TestMessage) GetDescription() string {
-	if m != nil {
-		return m.Description
-	}
-	return ""
-}
-
-func (m *TestMessage) GetMessageitems() []TestMessage_MsgItem {
-	if m != nil {
-		return m.Messageitems
-	}
-	return nil
-}
-
 type TestMessage_MsgItem struct {
 	Id               int32                `protobuf:"varint,1,req,name=id" json:"id"`
 	ItemName         string               `protobuf:"bytes,2,opt,name=itemName" json:"itemName"`
@@ -122,61 +104,951 @@ func (m *TestMessage_MsgItem) String() string            { return proto.CompactT
 func (*TestMessage_MsgItem) ProtoMessage()               {}
 func (*TestMessage_MsgItem) Descriptor() ([]byte, []int) { return fileDescriptorPrototest, []int{0, 0} }
 
-func (m *TestMessage_MsgItem) GetId() int32 {
-	if m != nil {
-		return m.Id
-	}
-	return 0
-}
-
-func (m *TestMessage_MsgItem) GetItemName() string {
-	if m != nil {
-		return m.ItemName
-	}
-	return ""
-}
-
-func (m *TestMessage_MsgItem) GetItemValue() int32 {
-	if m != nil {
-		return m.ItemValue
-	}
-	return 0
-}
-
-func (m *TestMessage_MsgItem) GetItemType() TestMessage_ItemType {
-	if m != nil {
-		return m.ItemType
-	}
-	return TestMessage_TypeX
-}
-
 func init() {
 	proto.RegisterType((*TestMessage)(nil), "main.TestMessage")
 	proto.RegisterType((*TestMessage_MsgItem)(nil), "main.TestMessage.MsgItem")
 	proto.RegisterEnum("main.TestMessage_ItemType", TestMessage_ItemType_name, TestMessage_ItemType_value)
 }
+func (this *TestMessage) VerboseEqual(that interface{}) error {
+	if that == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that == nil && this != nil")
+	}
+
+	that1, ok := that.(*TestMessage)
+	if !ok {
+		that2, ok := that.(TestMessage)
+		if ok {
+			that1 = &that2
+		} else {
+			return fmt.Errorf("that is not of type *TestMessage")
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that is type *TestMessage but is nil && this != nil")
+	} else if this == nil {
+		return fmt.Errorf("that is type *TestMessage but is not nil && this == nil")
+	}
+	if this.ClientName != that1.ClientName {
+		return fmt.Errorf("ClientName this(%v) Not Equal that(%v)", this.ClientName, that1.ClientName)
+	}
+	if this.ClientId != that1.ClientId {
+		return fmt.Errorf("ClientId this(%v) Not Equal that(%v)", this.ClientId, that1.ClientId)
+	}
+	if this.Description != that1.Description {
+		return fmt.Errorf("Description this(%v) Not Equal that(%v)", this.Description, that1.Description)
+	}
+	if len(this.Messageitems) != len(that1.Messageitems) {
+		return fmt.Errorf("Messageitems this(%v) Not Equal that(%v)", len(this.Messageitems), len(that1.Messageitems))
+	}
+	for i := range this.Messageitems {
+		if !this.Messageitems[i].Equal(&that1.Messageitems[i]) {
+			return fmt.Errorf("Messageitems this[%v](%v) Not Equal that[%v](%v)", i, this.Messageitems[i], i, that1.Messageitems[i])
+		}
+	}
+	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
+		return fmt.Errorf("XXX_unrecognized this(%v) Not Equal that(%v)", this.XXX_unrecognized, that1.XXX_unrecognized)
+	}
+	return nil
+}
+func (this *TestMessage) Equal(that interface{}) bool {
+	if that == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	}
+
+	that1, ok := that.(*TestMessage)
+	if !ok {
+		that2, ok := that.(TestMessage)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	} else if this == nil {
+		return false
+	}
+	if this.ClientName != that1.ClientName {
+		return false
+	}
+	if this.ClientId != that1.ClientId {
+		return false
+	}
+	if this.Description != that1.Description {
+		return false
+	}
+	if len(this.Messageitems) != len(that1.Messageitems) {
+		return false
+	}
+	for i := range this.Messageitems {
+		if !this.Messageitems[i].Equal(&that1.Messageitems[i]) {
+			return false
+		}
+	}
+	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
+		return false
+	}
+	return true
+}
+func (this *TestMessage_MsgItem) VerboseEqual(that interface{}) error {
+	if that == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that == nil && this != nil")
+	}
+
+	that1, ok := that.(*TestMessage_MsgItem)
+	if !ok {
+		that2, ok := that.(TestMessage_MsgItem)
+		if ok {
+			that1 = &that2
+		} else {
+			return fmt.Errorf("that is not of type *TestMessage_MsgItem")
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that is type *TestMessage_MsgItem but is nil && this != nil")
+	} else if this == nil {
+		return fmt.Errorf("that is type *TestMessage_MsgItem but is not nil && this == nil")
+	}
+	if this.Id != that1.Id {
+		return fmt.Errorf("Id this(%v) Not Equal that(%v)", this.Id, that1.Id)
+	}
+	if this.ItemName != that1.ItemName {
+		return fmt.Errorf("ItemName this(%v) Not Equal that(%v)", this.ItemName, that1.ItemName)
+	}
+	if this.ItemValue != that1.ItemValue {
+		return fmt.Errorf("ItemValue this(%v) Not Equal that(%v)", this.ItemValue, that1.ItemValue)
+	}
+	if this.ItemType != that1.ItemType {
+		return fmt.Errorf("ItemType this(%v) Not Equal that(%v)", this.ItemType, that1.ItemType)
+	}
+	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
+		return fmt.Errorf("XXX_unrecognized this(%v) Not Equal that(%v)", this.XXX_unrecognized, that1.XXX_unrecognized)
+	}
+	return nil
+}
+func (this *TestMessage_MsgItem) Equal(that interface{}) bool {
+	if that == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	}
+
+	that1, ok := that.(*TestMessage_MsgItem)
+	if !ok {
+		that2, ok := that.(TestMessage_MsgItem)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	} else if this == nil {
+		return false
+	}
+	if this.Id != that1.Id {
+		return false
+	}
+	if this.ItemName != that1.ItemName {
+		return false
+	}
+	if this.ItemValue != that1.ItemValue {
+		return false
+	}
+	if this.ItemType != that1.ItemType {
+		return false
+	}
+	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
+		return false
+	}
+	return true
+}
+func (this *TestMessage) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 8)
+	s = append(s, "&main.TestMessage{")
+	s = append(s, "ClientName: "+fmt.Sprintf("%#v", this.ClientName)+",\n")
+	s = append(s, "ClientId: "+fmt.Sprintf("%#v", this.ClientId)+",\n")
+	s = append(s, "Description: "+fmt.Sprintf("%#v", this.Description)+",\n")
+	if this.Messageitems != nil {
+		s = append(s, "Messageitems: "+fmt.Sprintf("%#v", this.Messageitems)+",\n")
+	}
+	if this.XXX_unrecognized != nil {
+		s = append(s, "XXX_unrecognized:"+fmt.Sprintf("%#v", this.XXX_unrecognized)+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *TestMessage_MsgItem) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 8)
+	s = append(s, "&main.TestMessage_MsgItem{")
+	s = append(s, "Id: "+fmt.Sprintf("%#v", this.Id)+",\n")
+	s = append(s, "ItemName: "+fmt.Sprintf("%#v", this.ItemName)+",\n")
+	s = append(s, "ItemValue: "+fmt.Sprintf("%#v", this.ItemValue)+",\n")
+	s = append(s, "ItemType: "+fmt.Sprintf("%#v", this.ItemType)+",\n")
+	if this.XXX_unrecognized != nil {
+		s = append(s, "XXX_unrecognized:"+fmt.Sprintf("%#v", this.XXX_unrecognized)+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func valueToGoStringPrototest(v interface{}, typ string) string {
+	rv := reflect.ValueOf(v)
+	if rv.IsNil() {
+		return "nil"
+	}
+	pv := reflect.Indirect(rv).Interface()
+	return fmt.Sprintf("func(v %v) *%v { return &v } ( %#v )", typ, typ, pv)
+}
+func extensionToGoStringPrototest(m github_com_gogo_protobuf_proto.Message) string {
+	e := github_com_gogo_protobuf_proto.GetUnsafeExtensionsMap(m)
+	if e == nil {
+		return "nil"
+	}
+	s := "proto.NewUnsafeXXX_InternalExtensions(map[int32]proto.Extension{"
+	keys := make([]int, 0, len(e))
+	for k := range e {
+		keys = append(keys, int(k))
+	}
+	sort.Ints(keys)
+	ss := []string{}
+	for _, k := range keys {
+		ss = append(ss, strconv.Itoa(k)+": "+e[int32(k)].GoString())
+	}
+	s += strings.Join(ss, ",") + "})"
+	return s
+}
+func (m *TestMessage) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TestMessage) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	dAtA[i] = 0xa
+	i++
+	i = encodeVarintPrototest(dAtA, i, uint64(len(m.ClientName)))
+	i += copy(dAtA[i:], m.ClientName)
+	dAtA[i] = 0x10
+	i++
+	i = encodeVarintPrototest(dAtA, i, uint64(m.ClientId))
+	dAtA[i] = 0x1a
+	i++
+	i = encodeVarintPrototest(dAtA, i, uint64(len(m.Description)))
+	i += copy(dAtA[i:], m.Description)
+	if len(m.Messageitems) > 0 {
+		for _, msg := range m.Messageitems {
+			dAtA[i] = 0x22
+			i++
+			i = encodeVarintPrototest(dAtA, i, uint64(msg.Size()))
+			n, err := msg.MarshalTo(dAtA[i:])
+			if err != nil {
+				return 0, err
+			}
+			i += n
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *TestMessage_MsgItem) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TestMessage_MsgItem) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	dAtA[i] = 0x8
+	i++
+	i = encodeVarintPrototest(dAtA, i, uint64(m.Id))
+	dAtA[i] = 0x12
+	i++
+	i = encodeVarintPrototest(dAtA, i, uint64(len(m.ItemName)))
+	i += copy(dAtA[i:], m.ItemName)
+	dAtA[i] = 0x18
+	i++
+	i = encodeVarintPrototest(dAtA, i, uint64(m.ItemValue))
+	dAtA[i] = 0x20
+	i++
+	i = encodeVarintPrototest(dAtA, i, uint64(m.ItemType))
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func encodeFixed64Prototest(dAtA []byte, offset int, v uint64) int {
+	dAtA[offset] = uint8(v)
+	dAtA[offset+1] = uint8(v >> 8)
+	dAtA[offset+2] = uint8(v >> 16)
+	dAtA[offset+3] = uint8(v >> 24)
+	dAtA[offset+4] = uint8(v >> 32)
+	dAtA[offset+5] = uint8(v >> 40)
+	dAtA[offset+6] = uint8(v >> 48)
+	dAtA[offset+7] = uint8(v >> 56)
+	return offset + 8
+}
+func encodeFixed32Prototest(dAtA []byte, offset int, v uint32) int {
+	dAtA[offset] = uint8(v)
+	dAtA[offset+1] = uint8(v >> 8)
+	dAtA[offset+2] = uint8(v >> 16)
+	dAtA[offset+3] = uint8(v >> 24)
+	return offset + 4
+}
+func encodeVarintPrototest(dAtA []byte, offset int, v uint64) int {
+	for v >= 1<<7 {
+		dAtA[offset] = uint8(v&0x7f | 0x80)
+		v >>= 7
+		offset++
+	}
+	dAtA[offset] = uint8(v)
+	return offset + 1
+}
+func NewPopulatedTestMessage(r randyPrototest, easy bool) *TestMessage {
+	this := &TestMessage{}
+	this.ClientName = string(randStringPrototest(r))
+	this.ClientId = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.ClientId *= -1
+	}
+	this.Description = string(randStringPrototest(r))
+	if r.Intn(10) != 0 {
+		v1 := r.Intn(5)
+		this.Messageitems = make([]TestMessage_MsgItem, v1)
+		for i := 0; i < v1; i++ {
+			v2 := NewPopulatedTestMessage_MsgItem(r, easy)
+			this.Messageitems[i] = *v2
+		}
+	}
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedPrototest(r, 5)
+	}
+	return this
+}
+
+func NewPopulatedTestMessage_MsgItem(r randyPrototest, easy bool) *TestMessage_MsgItem {
+	this := &TestMessage_MsgItem{}
+	this.Id = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.Id *= -1
+	}
+	this.ItemName = string(randStringPrototest(r))
+	this.ItemValue = int32(r.Int31())
+	if r.Intn(2) == 0 {
+		this.ItemValue *= -1
+	}
+	this.ItemType = TestMessage_ItemType([]int32{0, 1, 2}[r.Intn(3)])
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedPrototest(r, 5)
+	}
+	return this
+}
+
+type randyPrototest interface {
+	Float32() float32
+	Float64() float64
+	Int63() int64
+	Int31() int32
+	Uint32() uint32
+	Intn(n int) int
+}
+
+func randUTF8RunePrototest(r randyPrototest) rune {
+	ru := r.Intn(62)
+	if ru < 10 {
+		return rune(ru + 48)
+	} else if ru < 36 {
+		return rune(ru + 55)
+	}
+	return rune(ru + 61)
+}
+func randStringPrototest(r randyPrototest) string {
+	v3 := r.Intn(100)
+	tmps := make([]rune, v3)
+	for i := 0; i < v3; i++ {
+		tmps[i] = randUTF8RunePrototest(r)
+	}
+	return string(tmps)
+}
+func randUnrecognizedPrototest(r randyPrototest, maxFieldNumber int) (dAtA []byte) {
+	l := r.Intn(5)
+	for i := 0; i < l; i++ {
+		wire := r.Intn(4)
+		if wire == 3 {
+			wire = 5
+		}
+		fieldNumber := maxFieldNumber + r.Intn(100)
+		dAtA = randFieldPrototest(dAtA, r, fieldNumber, wire)
+	}
+	return dAtA
+}
+func randFieldPrototest(dAtA []byte, r randyPrototest, fieldNumber int, wire int) []byte {
+	key := uint32(fieldNumber)<<3 | uint32(wire)
+	switch wire {
+	case 0:
+		dAtA = encodeVarintPopulatePrototest(dAtA, uint64(key))
+		v4 := r.Int63()
+		if r.Intn(2) == 0 {
+			v4 *= -1
+		}
+		dAtA = encodeVarintPopulatePrototest(dAtA, uint64(v4))
+	case 1:
+		dAtA = encodeVarintPopulatePrototest(dAtA, uint64(key))
+		dAtA = append(dAtA, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
+	case 2:
+		dAtA = encodeVarintPopulatePrototest(dAtA, uint64(key))
+		ll := r.Intn(100)
+		dAtA = encodeVarintPopulatePrototest(dAtA, uint64(ll))
+		for j := 0; j < ll; j++ {
+			dAtA = append(dAtA, byte(r.Intn(256)))
+		}
+	default:
+		dAtA = encodeVarintPopulatePrototest(dAtA, uint64(key))
+		dAtA = append(dAtA, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
+	}
+	return dAtA
+}
+func encodeVarintPopulatePrototest(dAtA []byte, v uint64) []byte {
+	for v >= 1<<7 {
+		dAtA = append(dAtA, uint8(uint64(v)&0x7f|0x80))
+		v >>= 7
+	}
+	dAtA = append(dAtA, uint8(v))
+	return dAtA
+}
+func (m *TestMessage) Size() (n int) {
+	var l int
+	_ = l
+	l = len(m.ClientName)
+	n += 1 + l + sovPrototest(uint64(l))
+	n += 1 + sovPrototest(uint64(m.ClientId))
+	l = len(m.Description)
+	n += 1 + l + sovPrototest(uint64(l))
+	if len(m.Messageitems) > 0 {
+		for _, e := range m.Messageitems {
+			l = e.Size()
+			n += 1 + l + sovPrototest(uint64(l))
+		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *TestMessage_MsgItem) Size() (n int) {
+	var l int
+	_ = l
+	n += 1 + sovPrototest(uint64(m.Id))
+	l = len(m.ItemName)
+	n += 1 + l + sovPrototest(uint64(l))
+	n += 1 + sovPrototest(uint64(m.ItemValue))
+	n += 1 + sovPrototest(uint64(m.ItemType))
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func sovPrototest(x uint64) (n int) {
+	for {
+		n++
+		x >>= 7
+		if x == 0 {
+			break
+		}
+	}
+	return n
+}
+func sozPrototest(x uint64) (n int) {
+	return sovPrototest(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+}
+func (m *TestMessage) Unmarshal(dAtA []byte) error {
+	var hasFields [1]uint64
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPrototest
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: TestMessage: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: TestMessage: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ClientName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPrototest
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPrototest
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ClientName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+			hasFields[0] |= uint64(0x00000001)
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ClientId", wireType)
+			}
+			m.ClientId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPrototest
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ClientId |= (int32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			hasFields[0] |= uint64(0x00000002)
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Description", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPrototest
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPrototest
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Description = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Messageitems", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPrototest
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPrototest
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Messageitems = append(m.Messageitems, TestMessage_MsgItem{})
+			if err := m.Messageitems[len(m.Messageitems)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPrototest(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthPrototest
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+	if hasFields[0]&uint64(0x00000001) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("clientName")
+	}
+	if hasFields[0]&uint64(0x00000002) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("clientId")
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *TestMessage_MsgItem) Unmarshal(dAtA []byte) error {
+	var hasFields [1]uint64
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPrototest
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgItem: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgItem: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			m.Id = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPrototest
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Id |= (int32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			hasFields[0] |= uint64(0x00000001)
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ItemName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPrototest
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPrototest
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ItemName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ItemValue", wireType)
+			}
+			m.ItemValue = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPrototest
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ItemValue |= (int32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ItemType", wireType)
+			}
+			m.ItemType = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPrototest
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ItemType |= (TestMessage_ItemType(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPrototest(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthPrototest
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+	if hasFields[0]&uint64(0x00000001) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("id")
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func skipPrototest(dAtA []byte) (n int, err error) {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return 0, ErrIntOverflowPrototest
+			}
+			if iNdEx >= l {
+				return 0, io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		wireType := int(wire & 0x7)
+		switch wireType {
+		case 0:
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return 0, ErrIntOverflowPrototest
+				}
+				if iNdEx >= l {
+					return 0, io.ErrUnexpectedEOF
+				}
+				iNdEx++
+				if dAtA[iNdEx-1] < 0x80 {
+					break
+				}
+			}
+			return iNdEx, nil
+		case 1:
+			iNdEx += 8
+			return iNdEx, nil
+		case 2:
+			var length int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return 0, ErrIntOverflowPrototest
+				}
+				if iNdEx >= l {
+					return 0, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				length |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			iNdEx += length
+			if length < 0 {
+				return 0, ErrInvalidLengthPrototest
+			}
+			return iNdEx, nil
+		case 3:
+			for {
+				var innerWire uint64
+				var start int = iNdEx
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return 0, ErrIntOverflowPrototest
+					}
+					if iNdEx >= l {
+						return 0, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					innerWire |= (uint64(b) & 0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				innerWireType := int(innerWire & 0x7)
+				if innerWireType == 4 {
+					break
+				}
+				next, err := skipPrototest(dAtA[start:])
+				if err != nil {
+					return 0, err
+				}
+				iNdEx = start + next
+			}
+			return iNdEx, nil
+		case 4:
+			return iNdEx, nil
+		case 5:
+			iNdEx += 4
+			return iNdEx, nil
+		default:
+			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
+		}
+	}
+	panic("unreachable")
+}
+
+var (
+	ErrInvalidLengthPrototest = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowPrototest   = fmt.Errorf("proto: integer overflow")
+)
 
 func init() { proto.RegisterFile("prototest.proto", fileDescriptorPrototest) }
 
 var fileDescriptorPrototest = []byte{
-	// 293 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0x64, 0x8f, 0xcf, 0x4e, 0x84, 0x30,
-	0x10, 0xc6, 0x97, 0x3f, 0x1b, 0x97, 0xc1, 0x28, 0x69, 0x3c, 0x20, 0x17, 0x09, 0x31, 0x86, 0xc4,
-	0xc8, 0x26, 0x7b, 0xf6, 0xa4, 0x27, 0x0e, 0xeb, 0xc1, 0x6c, 0x8c, 0x7a, 0x63, 0xa1, 0x62, 0x93,
-	0x85, 0x92, 0x6d, 0x39, 0xf8, 0x20, 0x3e, 0x81, 0x2f, 0xe3, 0x53, 0xf8, 0x2c, 0xb6, 0x85, 0x62,
-	0xcd, 0x9e, 0xfa, 0x7d, 0x33, 0xdf, 0x4c, 0x7f, 0x03, 0xa7, 0xdd, 0x9e, 0x72, 0xca, 0x31, 0xe3,
-	0x99, 0x52, 0xc8, 0x6d, 0x0a, 0xd2, 0x46, 0x37, 0x35, 0xe1, 0xef, 0xfd, 0x36, 0x2b, 0x69, 0xb3,
-	0xac, 0x69, 0x4d, 0x97, 0xaa, 0xb9, 0xed, 0xdf, 0x94, 0x53, 0x46, 0xa9, 0x61, 0x28, 0xf9, 0x74,
-	0xc0, 0xdf, 0x88, 0x1d, 0x6b, 0xcc, 0x58, 0x51, 0x63, 0x74, 0x09, 0x50, 0xee, 0x08, 0x6e, 0xf9,
-	0x43, 0xd1, 0xe0, 0xd0, 0x8a, 0xed, 0xd4, 0xbb, 0x73, 0xbf, 0x7f, 0x2e, 0x66, 0x8f, 0x46, 0x1d,
-	0xc5, 0xb0, 0x18, 0x5c, 0x5e, 0x85, 0xb6, 0xc8, 0xcc, 0xc7, 0xcc, 0x54, 0x45, 0x57, 0xe0, 0x57,
-	0x98, 0x95, 0x7b, 0xd2, 0x71, 0x42, 0xdb, 0xd0, 0x89, 0xad, 0x69, 0x91, 0xd9, 0x40, 0xf7, 0x70,
-	0xdc, 0x0c, 0x5f, 0x13, 0x8e, 0x1b, 0x16, 0xba, 0xb1, 0x93, 0xfa, 0xab, 0xf3, 0x4c, 0xde, 0x92,
-	0x19, 0x60, 0xd9, 0x9a, 0xd5, 0xb9, 0x48, 0x8c, 0x3b, 0xfe, 0x0d, 0x45, 0x5f, 0x16, 0x1c, 0x8d,
-	0x7d, 0x74, 0x06, 0x36, 0xa9, 0x14, 0xb8, 0x86, 0x12, 0x5e, 0x02, 0xcb, 0xa8, 0x3a, 0xca, 0x36,
-	0x58, 0xa6, 0x2a, 0x4a, 0xc0, 0x93, 0xfa, 0xa9, 0xd8, 0xf5, 0x58, 0xe1, 0xea, 0xf1, 0xbf, 0x32,
-	0xba, 0x1d, 0xb6, 0x6c, 0x3e, 0x3a, 0x2c, 0x40, 0xad, 0xf4, 0x64, 0x15, 0x1d, 0x82, 0xe6, 0x63,
-	0xc2, 0xfc, 0x41, 0xfa, 0xe4, 0x1a, 0x16, 0xba, 0x87, 0x3c, 0x98, 0xcb, 0xf7, 0x39, 0x98, 0x69,
-	0xf9, 0x12, 0x58, 0x5a, 0xbe, 0x06, 0xf6, 0x6f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x2f, 0xd4, 0x5b,
-	0xa7, 0xde, 0x01, 0x00, 0x00,
+	// 323 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0xe2, 0xe2, 0x2f, 0x28, 0xca, 0x2f,
+	0xc9, 0x2f, 0x49, 0x2d, 0x2e, 0xd1, 0x03, 0xb3, 0x84, 0x58, 0x72, 0x13, 0x33, 0xf3, 0xa4, 0x74,
+	0xd3, 0x33, 0x4b, 0x32, 0x4a, 0x93, 0xf4, 0x92, 0xf3, 0x73, 0xf5, 0xd3, 0xf3, 0xd3, 0xf3, 0xf5,
+	0xc1, 0x92, 0x49, 0xa5, 0x69, 0x60, 0x1e, 0x98, 0x03, 0x66, 0x41, 0x34, 0x29, 0x4d, 0x65, 0xe6,
+	0xe2, 0x0e, 0x01, 0x9a, 0xe1, 0x9b, 0x5a, 0x5c, 0x9c, 0x98, 0x9e, 0x2a, 0xa4, 0xc2, 0xc5, 0x95,
+	0x9c, 0x93, 0x99, 0x9a, 0x57, 0xe2, 0x97, 0x98, 0x9b, 0x2a, 0xc1, 0xa8, 0xc0, 0xa4, 0xc1, 0xe9,
+	0xc4, 0x72, 0xe2, 0x9e, 0x3c, 0x43, 0x10, 0x92, 0xb8, 0x90, 0x02, 0x17, 0x07, 0x84, 0xe7, 0x99,
+	0x22, 0xc1, 0x04, 0x54, 0xc3, 0x0a, 0x55, 0x03, 0x17, 0x15, 0x52, 0xe3, 0xe2, 0x4e, 0x49, 0x2d,
+	0x4e, 0x2e, 0xca, 0x2c, 0x28, 0xc9, 0xcc, 0xcf, 0x93, 0x60, 0x56, 0x60, 0x84, 0x1b, 0x84, 0x2c,
+	0x21, 0xe4, 0xcc, 0xc5, 0x93, 0x0b, 0xb1, 0x3a, 0xb3, 0x24, 0x35, 0xb7, 0x58, 0x82, 0x45, 0x81,
+	0x59, 0x83, 0xdb, 0x48, 0x52, 0x0f, 0xe4, 0x17, 0x3d, 0x24, 0x87, 0xe9, 0xf9, 0x16, 0xa7, 0x7b,
+	0x02, 0x55, 0x40, 0xcd, 0x40, 0xd1, 0x24, 0xb5, 0x98, 0x91, 0x8b, 0x1d, 0x2a, 0x2f, 0x24, 0xc2,
+	0xc5, 0x94, 0x99, 0x02, 0x76, 0x38, 0xcc, 0x51, 0x40, 0x3e, 0xc8, 0xc1, 0x20, 0xa5, 0x60, 0x4f,
+	0x31, 0x21, 0xb9, 0x05, 0x2e, 0x2a, 0xa4, 0xc4, 0xc5, 0x09, 0x62, 0x87, 0x25, 0xe6, 0x94, 0xa6,
+	0x82, 0x9d, 0x0b, 0xd3, 0x8e, 0x10, 0x16, 0xb2, 0x81, 0x98, 0x12, 0x52, 0x59, 0x90, 0x0a, 0x74,
+	0x28, 0xa3, 0x06, 0x9f, 0x91, 0x14, 0xa6, 0x43, 0x3d, 0xa1, 0x2a, 0x90, 0x6d, 0x00, 0xf1, 0x95,
+	0xb4, 0xb9, 0x38, 0x60, 0x72, 0x42, 0x9c, 0x5c, 0xac, 0x20, 0x3a, 0x42, 0x80, 0x01, 0xc6, 0x8c,
+	0x14, 0x60, 0x84, 0x31, 0xa3, 0x04, 0x98, 0x9c, 0x54, 0x4e, 0x3c, 0x94, 0x63, 0x78, 0xf0, 0x50,
+	0x8e, 0xf1, 0x03, 0x10, 0xff, 0x00, 0xe2, 0x15, 0x8f, 0xe4, 0x18, 0x77, 0x00, 0xf1, 0x09, 0x20,
+	0xbe, 0x00, 0xc4, 0x0f, 0x80, 0x18, 0x10, 0x00, 0x00, 0xff, 0xff, 0x56, 0x84, 0xe1, 0xaa, 0x04,
+	0x02, 0x00, 0x00,
 }
