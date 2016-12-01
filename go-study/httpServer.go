@@ -54,6 +54,10 @@ func submitEndpoint(c *gin.Context) {
 
 }
 
+// Output
+// X: aaaaaaaa
+// Y:
+
 func testEndpoint(c *gin.Context) {
 	body := c.Request.Body
 	c.JSON(http.StatusOK, gin.H{"status": "you are logged in"})
@@ -72,6 +76,10 @@ func testEndpoint(c *gin.Context) {
 	y, _ := ioutil.ReadAll(c.Request.Body)
 	fmt.Printf("Y: %s \n", string(y))
 }
+
+// Output
+// X: aaaaaaaa
+// Y: aaaaaaaa
 
 func testEndpoint2(c *gin.Context) {
 	body := c.Request.Body
@@ -113,3 +121,8 @@ func testEndpoint3(c *gin.Context) {
 	z, _ := ioutil.ReadAll(body)
 	fmt.Printf("Z: %s \n", string(z))
 }
+
+//  Output
+// X:
+// Y: aaaaaaaa
+// Z:
