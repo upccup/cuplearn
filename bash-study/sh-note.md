@@ -96,3 +96,17 @@ Chain DOCKER (1 references)
     ./test < /etc/group > std.out 2> std.err
     分别将 输入流重定向到 /etc/group 标准输出流重定向到文件 std.out 标准错误输出流重定向到文件 std.err
 ```
+
+###$ ntp 安装和 配置
+安装:  yum install ntp
+
+配置: vim /etc/ntp.conf
+
+阿里云ntp server 地址:
+```
+公网地址: ntp1.aliyun.com  ~ ntp6.aliyun.com 
+
+内网地址: ntp1.cloud.aliyuncs.com   ~ ntp12.cloud.aliyuncs.com  
+```
+
+直接执行命令 **ntpdate ntp1.aliyun.com** 也可以更新
