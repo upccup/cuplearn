@@ -22,6 +22,9 @@ func main() {
 		defer wg.Done()
 		i := 0
 		ticker := time.NewTicker(time.Second * 1)
+
+		go UseContext(ctx, 1)
+		go UseContext(ctx, 2)
 		for {
 			select {
 			case <-ticker.C:
@@ -88,25 +91,45 @@ func main() {
 	wg.Wait()
 }
 
-// Output
-// I:   0
-// j:   0
-// k:   0
-// I:   0
-// k:   1
-// j:   1
-// I:   1
-// I:   1
-// j:   2
-// I:   2
-// I:   2
-// k:   2
-// j:   3
-// I:   3
-// k:   3
-// I:   3
-// I:   4
-// context ***I*** done:   context canceled
-// context ***K*** done:   context canceled
-// context ***J*** done:   context canceled
-// context parent done:   context canceled
+func UseContext(ctx context.Context, i int) error {
+	fmt.Printf("use  ctx at  %d time \n", i)
+	select {
+	case <-ctx.Done():
+		fmt.Printf("ctx cancel at  %d time \n", i)
+		return ctx.Err()
+	}
+}
+
+/*
+use  ctx at  2 time
+use  ctx at  1 time
+j:   0
+k:   0
+I:   0
+I:   0
+I:   1
+j:   1
+I:   1
+k:   1
+j:   2
+I:   2
+k:   2
+I:   2
+k:   3
+j:   3
+I:   3
+I:   3
+I:   4
+k:   4
+j:   4
+I:   4
+context parent done:   context canceled
+ctx cancel at  2 time
+ctx cancel at  1 time
+context ***K*** done:   context canceled
+context ***J*** done:   context canceled
+context ***I*** done:   context canceled
+*/
+
+// 说明: 通过这个程序可以看到当cancel() 被调用后及时一个 ctx 在多个线程中呗使用所有的 ctx.Done()都能收到信号
+// 不是只有其中一个能收到信号. 而且所有子Ctx 的 ctx.Done() 也会收到信号.
