@@ -17,7 +17,7 @@
     详细介绍参考: [Docker网络详解及pipework源码解读与实践](http://www.infoq.com/cn/articles/docker-network-and-pipework-open-source-explanation-practice/)
 
 
-  docker bridge 网络模式通过 **veth pair**创建凉快虚拟网卡, 一块网卡放到容器中一块放在主机上, 以此来解决容器和主机通信. 但是如果要让容器和宿主机以外的机器通信我们可以使用**Linux bridge** 将**veth pair**主机一端的网卡桥接到主机的网卡上, 这样容器就可以通过主机的网卡与外部的主机通信. 操作步骤如下:
+  docker bridge 网络模式通过 **veth pair**创建两块虚拟网卡, 一块网卡放到容器中一块放在主机上, 以此来解决容器和主机通信. 但是如果要让容器和宿主机以外的机器通信我们可以使用**Linux bridge** 将**veth pair**主机一端的网卡桥接到主机的网卡上, 这样容器就可以通过主机的网卡与外部的主机通信. 操作步骤如下:
   
   1. 创建自定义的docker network:
   
