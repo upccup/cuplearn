@@ -36,6 +36,19 @@
         --aux-address=DefaultGatewayIPv4=容器使用的网关地址 例:192.168.223.2
         mynet
       ```
+      
+      参数说明:
+      
+                   选项                  |     等同   |        描述       
+      :---------------------------------:|:----------:|-----------------------------:
+      com.docker.network.bridge.name    |      -     | 创建Linux bridge使用的bridge名称
+      com.docker.network.bridge.enable_ip_masquerade | –ip-masq |    启用IP伪装
+      com.docker.network.bridge.enable_icc |  –icc   |  	启用或禁用容器间连接
+      com.docker.network.bridge.host_binding_ipv4 | –ip  | 绑定容器端口时默认绑定的IP
+      com.docker.network.driver.mtu  |    	–mtu  |  	设置容器网络MTU
+      
+      注: 这些选项有与docker daemon选项等同的选项
+       
   
   2. 桥接:
  
