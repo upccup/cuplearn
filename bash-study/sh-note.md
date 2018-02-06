@@ -110,3 +110,9 @@ Chain DOCKER (1 references)
 ```
 
 直接执行命令 **ntpdate ntp1.aliyun.com** 也可以更新
+
+### 使用mkdir同时创建多个目录
+```
+mkdir -p /home/yy152986/{test1/test2,test3/test4}
+```
+* 注意 **,** 后面没有空格
