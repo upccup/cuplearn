@@ -116,3 +116,11 @@ Chain DOCKER (1 references)
 mkdir -p /home/yy152986/{test1/test2,test3/test4}
 ```
 * 注意 **,** 后面没有空格
+
+
+sed 命令当需要替换的字符串中包含'/' 时可以是有别的分割符来例如:
+```
+sed -i "s|$var|r_str|g" file_name
+```
+中
+
