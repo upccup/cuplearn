@@ -122,5 +122,10 @@ sed 命令当需要替换的字符串中包含'/' 时可以是有别的分割符
 ```
 sed -i "s|$var|r_str|g" file_name
 ```
-中
+
+
+### centos 查看 system service 日志
+```
+journalctl -u service-name.service -b
+```
 
