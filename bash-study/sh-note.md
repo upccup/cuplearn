@@ -113,7 +113,7 @@ Chain DOCKER (1 references)
 
 ### 使用mkdir同时创建多个目录
 ```
-mkdir -p /home/yy152986/{test1/test2,test3/test4}
+mkdir -p /home/upccup/{test1/test2,test3/test4}
 ```
 * 注意 **,** 后面没有空格
 
