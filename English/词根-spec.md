@@ -8,7 +8,7 @@
 :------------:|:-------------:|:---------------------------------------------:|
 | expect      | `[ɪkˈspekt]`  | `vt. 期望；指望；认为；预料; vi. 期待；预期`  |
 | inspect     | `[ɪnˈspekt]`  | `vt. 检查；视察；检阅; vi. 进行检查；进行视察` |
-| intorspect  | `[,ɪntrə'spɛkt]` | `vi. 反省；内省; vt. 对…进行自省` |
+| introspect  | `[,ɪntrə'spɛkt]` | `vi. 反省；内省; vt. 对…进行自省` |
 | prospect    | `[ˈprɑːspekt]` | `n. 前途；预期；景色; vi. 勘探，找矿; vt. 勘探，勘察` |
 | retrospect  | `[ˈretrəspekt]` | `n. 回顾，追溯; vi. 回顾，追溯；回想; vt. 回顾；追忆` |
 | circumspect | `[ˈsɜːrkəmspekt]` | `adj. 小心谨慎的，考虑周到的，慎重的` |
