@@ -1,0 +1,253 @@
+1 ag=do,act 做，动
+2 agri=field 田地，农田那（agri 也做agro,agr）
+3 ann=year 年
+4 aui=hear 听
+5 bell=war 战争
+6 brev=short短
+7 ced,cedd,cess=go行走
+8 cept=take拿走
+9 cid,cis=cut,kill 切，杀
+10 circ=ring 环，圈
+11 claim,clam=cry,shout 喊杀
+12 clar=clear清楚，明白
+13 clud=close,shut关闭
+14 cogn=known 知道
+15 cord=hear 心
+16 corpor=body 体
+17 cred=believe,trust 相信，信任
+18 cruc=cross十字
+19 cur=care 关心
+20 cur,curs,cour,cours=run跑
+21 dent=tooth牙齿
+22 di=day日
+23 dict=say 说
+24 dit=give给
+25 don=give 给
+26 du=tow 给
+27 duc,duct=lead 引导
+28 ed=eat 吃
+29 equ=equal 等，均，平
+30 ev=age 年龄，寿命，时代，时期
+31 fact=do,make做，作
+32 fer=bring ,carry带，拿
+33 flor=flower 花
+34 flu=flow 流
+35 fus=pour 灌，流，倾泄
+36 grad=step,go,grade 步，走，级
+37 gram=write,draw 写，画，文字
+38 graph=write,records 写，画，记录器，图形
+39 gress=go,walk 行走
+40 habit=dwell 居住
+41 hibit=hold 拿，持
+42 hospit=guest 客人
+43 idio=peculiar,own,private,proper特殊的，个人的，专有的
+44 insul=island岛
+45 it=go 行走
+46 ject=throw 投掷
+47 juven=young 年轻，年少
+48 lectchoose,gather 选，收
+49 lev=raise 举，升
+50 liber=free 自由
+51 lingu=language 语言
+52 liter=letter 文字，字母
+53 loc=place 地方
+54 log=speak 言，说
+55 loqu=speak 言，说
+56 lun=moon 月亮
+57 man=dwell,stay 居住，停留
+58 manu=hand 手
+59 mar=sea海
+60 medi=middle 中间
+61memor=memory 记忆
+62 merg=dip,sink 沉，没
+63 migr=remove,move 迁移
+64 milit=soldier 兵
+65 mini=small,little 小
+66 mir=wonder 惊奇
+67 miss=send 投，送，发（miss也作mit）
+68 mob=move 动
+69 mort=death 死
+70 mot=move 移动，动
+71 nomin=name 名
+72 nov=new 新
+73 numer=number 数
+74 onym=name 名
+75 oper=work 工作
+76 ori=rise 升起
+77 paci=peace 和平，平静
+78 pel=push,drive 推，逐，驱
+79 pend,pens=hang 悬挂/weigh 称量/pay 支 出，付钱，花费
+80 pet=seek 追求
+81 phon=sound 声音
+82 pict=paint 画，描绘
+83 plen=full 满，全
+84 plic=fold 折，重叠
+85 pon=put 放置
+86 popul=people 人民
+87 port=carry 拿，带，运
+88 pos=put 放置
+89 preci=price 价值
+90 punct=point,prick点，刺
+91 pur=pure 清，纯，净
+92 rect=right,straight 正，直
+93 rupt=break 破
+94 sal=salt 盐
+95 scend,scens=climb 爬，攀
+96 sci=know 知
+97 sec,sequ=follow 跟随
+98 sect=cut 切割
+99 sent,sens=feel 感觉
+100 sid=sit 坐
+101 sist=stand 站立
+102 son=sound 声音
+103 spect=look 看
+104 spir=breathe 呼吸
+105 tail=cut 切割
+106 tain=cut 切割
+107 tect=cover 掩盖
+108 tele=far 远
+109 tempor=time 时
+110 tend(tens,tent)=stretch 伸
+111 terr=land，earth 土地，陆地
+112 text=weave 纺织
+113 tract=draw 拉，抽，引
+114 un=one 一
+115 urb=city 城市
+116 vac,vacu=empty 空
+117 vad,vas=walk,go 行走
+118 vari=change 变化
+119 ven=come 来
+120 vert，vers=turn 转
+121 vi,via=way 道路
+122 vis,vid=see 看
+123 vit=life 生命
+124 viv=live 活
+
+125 aer(o) 空气，空中，航空
+126 alt 高
+127 am 爱
+128 ambul 行走
+129 anim 生命，活 ，心神，意见
+130 anthrop(o) 人，人类
+131 aqu 水
+132 arch 统治者，首脑 archy 统治
+133 avi 鸟
+134 bat 打
+135 biblio 书
+136 birg 战斗，打
+137 cad,cas 降落，降临
+138 cert 确定，确信
+139 chron 时
+140 cid 降落，降临
+141 clim 倾
+142 cosm(o) 世界，宇宙
+143 cracy 统治 crat 支持
+144 cub 躺，卧
+145 cult 耕，培养
+146 cycl(o) 圈，环，轮
+147 dem(o) 人民
+148 dexter 右
+149 doc 教
+150 dom 屋，家
+151 dorm 睡眠
+152 drom 跑
+153 ego 我
+154 err 漫游，走，行
+155 fabl,fabul 言
+156 feder 联盟
+157 ferv 沸，热
+158 fict,fig 塑造，虚构
+159 fid 信任
+160 fil 线
+161 flat 吹
+162 flect,flex 弯曲
+163 flict 打击
+164 frag,fract 破，折
+165 frig 冷
+166 fug 逃，散
+167 fund,found 底，基础
+168 gam 婚姻
+169 gram 谷物，谷粒
+170 grav 重
+171 greg 群，集合
+172 gyn,gynce(o) 妇女
+173 hal 呼吸
+174 helic(o) 螺旋
+175 hes,her 粘着
+176 ign 火
+177 integr 整，全
+178 junct 连接，连结
+179 later 边
+180 leg 读
+181 leg,legis 去
+182 luc 光
+183 lumin 光
+184 magn(i)大
+185 matr(i),metro 母
+186 mega 大
+187 mens 测量
+188 ment 心，神，智，思，意
+189 min 伸出，突出
+190 misc 混合，混杂
+191 mis(o) 恨，厌恶
+192 mon 告诫，提醒
+193 mon 单独，一个
+194 mur 墙
+195 mut 变换
+196 nat 诞生
+197 nav 船
+198 nect,nex 结，系
+199 negr,nigr 黑
+200 nihil 无
+201 noc,nox 伤害
+202 noct(i) 夜
+203 norm(规范，正规，正常）
+204 nutri 营养
+205 orn 装饰
+206 par 生，产
+207 parl 说，谈
+208 past 喂，食
+209 path(o)，pathy 疾病，疗法
+210 patri(i)父，祖
+211 ped 生，产
+212 ped 脚，足
+213 pert(o) 石
+214 phag 吃
+215 phil(o) 爱
+216 phob（ia) 怕
+217 plex 重叠，重
+218 polis 城市
+219 prim 第一，最初
+220 radic 根
+221 ras,rad 擦，刮
+222 rid,ris 笑
+223 rod,ros 咬，啮
+224 rot 轮，转
+225 rud 原始，粗野
+226 rur,rus 农村
+227 sat,satis,satur 足，满，饱
+228 sen 老
+229 simil,simul 相似，相同
+230 sol 单独
+231 sol 太阳
+232 soph 智慧
+233 sper 希望
+234 spers,spars 散，撒
+235 splend 发光，照耀
+236 stell 星
+237 tact,tag 触
+238 the(o) 神
+239 ton 音
+240 tort 扭
+241 tour 迂回，转
+242 trud,trus 推，冲
+243 tut,tuit 看管，监护
+244 umbr 阴影
+245 ut，us 用
+246 vas 走，漫游
+247 val 强
+248 van 空，无
+249 ver(i) 真实
+250 voc,vok 声音，叫喊
+251 vol,volunt 意志，意愿
+252 volu,volv 滚，转 
