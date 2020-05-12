@@ -6,6 +6,9 @@ import (
 	"strings"
 )
 
+/**
+@leetcode https://leetcode.com/problems/string-to-integer-atoi/
+**/
 func main() {
 	str1 := "  dda1111222"
 	num := str2Int(str1)
