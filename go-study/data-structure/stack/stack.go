@@ -14,14 +14,14 @@ func New() Stack {
 	return s
 }
 
-func (s *Stack) push(item interface{}) {
+func (s *Stack) Push(item interface{}) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
 	s.iterms = append(s.iterms, item)
 }
 
-func (s *Stack) pop() interface{} {
+func (s *Stack) Pop() interface{} {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -33,4 +33,7 @@ func (s *Stack) pop() interface{} {
 	val := s.iterms[length-1]
 	s.iterms = s.iterms[0 : length-1]
 	return val
+}
+func (s *Stack) Length() int {
+	return len(s.iterms)
 }
