@@ -119,10 +119,39 @@ type表示存储元素的类型.对数组的操作也是通过[]来进行读取�
 ### 方法接收者
 如果方法的接收者为对象的指针,则可以修改原对象.如果方法接收者为对象的值,那么方法中备操作的是原对象的副本, 对其操作不会影响原对象.
 
-go语言中函数的参数默认为 **按值传递**, 即在函数内部修改传入参数的值是外部传入值的拷贝,  对象的方法也是遵循这个逻辑, 这就可以解释方法接收者为对象指针与对象的区别了.
+go语言中函数的参数默认为 **按值传递**, 即在函数内部修改传入参数的值是外部传入值的拷贝, 对象的方法也是遵循这个逻辑, 如果方法的接收者为对象指针, 其实函数传递的也是指针的拷贝,但是指针的拷贝也还是指向原有对象.
 
 如果对象本身是引用类型, 例如: slice, map.则即使方法的接收是对象的值也是可以对其进行修改的.
 
 * 注: java语言中函数也是传值的但是java中大部分对象都是引用类型的,所以可以在函数中对其值进行修改.
+* 当我们使用指针实现接口时，只有指针类型的变量才会实现该接口；当我们使用结构体实现接口时，指针类型和结构体类型都会实现该接口, 所以判断某个对象是否实现了某个接口时,如果该方法是指针类型实现,则结构体类型在类型推断时不能通过.
 
 [测试代码](https://github.com/upccup/cuplearn/blob/master/go-study/func.go)
+
+
+### 接口
+Go 语言中接口是**隐式实现**的,只要实现了接口中所定义的所有方法,则表示实现了该接口.
+接口也是Go 语言中的一种类, 它能够出现在变量的定义,函数的入参和返回值中并对他们进行约束.
+Go 语言中有两种略微不同的接口,一种是带有一组方法的接口,另一种是不带任何方法的interface{}. 需要注意的是与C语言中的void * 不同, interface{}类型不是**任意类型**,变量在转换成interface{}类型后仍然带有原类型的信息. [示例代码](https://github.com/upccup/cuplearn/blob/master/go-study/interface/eface.go)
+```
+    package main
+
+    type TestStruct struct{}
+
+    func NilOrNot(v interface{}) bool {
+        return v == nil
+    }
+
+    func main() {
+        var s *TestStruct
+        fmt.Println(s == nil)      // #=> true
+        fmt.Println(NilOrNot(s))   // #=> false
+    }
+
+    $ go run main.go
+    true
+    false
+```
+出现上述现象的原因是 —— 调用 NilOrNot 函数时发生了隐式的类型转换，除了向方法传入参数之外，变量的赋值也会触发隐式类型转换。在类型转换时，*TestStruct 类型会转换成 interface{} 类型，转换后的变量不仅包含转换前的变量，还包含变量的类型信息 TestStruct，所以转换后的变量与 nil 不相等.
+
+[参考文档](https://draveness.me/golang/docs/part2-foundation/ch04-basic/golang-interface/)
