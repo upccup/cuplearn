@@ -105,3 +105,23 @@ func combineIIOptimize(candidates []int, target int, curComb []int, result *[][]
 		return
 	}
 }
+
+func combinationSumIII(k, n int) [][]int {
+	candidates := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	result := [][]int{}
+	combineIII(candidates, k, n, []int{}, &result)
+	return result
+}
+
+func combineIII(candidates []int, k int, target int, curComb []int, result *[][]int) {
+	if target == 0 && len(curComb) == k {
+		*result = append(*result, append([]int{}, curComb...))
+		return
+	} else if target < 0 {
+		return
+	} else {
+		for i, v := range candidates {
+			combineIII(candidates[i+1:], k, target-v, append(curComb, v), result)
+		}
+	}
+}

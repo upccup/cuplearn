@@ -22,3 +22,11 @@ func TestCombinationSumII(t *testing.T) {
 	result = combinationSumIIOptimize([]int{10, 1, 2, 7, 6, 1, 5}, 8)
 	fmt.Println(result)
 }
+
+func TestCombinationSumIII(t *testing.T) {
+	fmt.Println("TestCombinationSumIII: ")
+	result := combinationSumIII(3, 9)
+	fmt.Println(result)
+	result = combinationSumIII(3, 15)
+	fmt.Println(result)
+}
