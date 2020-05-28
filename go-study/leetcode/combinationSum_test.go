@@ -30,3 +30,11 @@ func TestCombinationSumIII(t *testing.T) {
 	result = combinationSumIII(3, 15)
 	fmt.Println(result)
 }
+
+func TestCombinationSumIV(t *testing.T) {
+	fmt.Println("TestCombinationSumIV: ")
+	result := combinationSumIV([]int{1, 2, 3}, 4)
+	fmt.Println(result)
+	result = combinationSumIV([]int{4, 2, 1}, 32)
+	fmt.Println(result)
+}

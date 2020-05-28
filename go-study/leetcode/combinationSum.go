@@ -106,6 +106,7 @@ func combineIIOptimize(candidates []int, target int, curComb []int, result *[][]
 	}
 }
 
+// https://leetcode.com/problems/combination-sum-iii/
 func combinationSumIII(k, n int) [][]int {
 	candidates := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	result := [][]int{}
@@ -124,4 +125,23 @@ func combineIII(candidates []int, k int, target int, curComb []int, result *[][]
 			combineIII(candidates[i+1:], k, target-v, append(curComb, v), result)
 		}
 	}
+}
+
+// 题目描述 https://leetcode.com/problems/combination-sum-iv/
+// 方案参考: https://leetcode.com/problems/combination-sum-iv/discuss/433597/Go-0ms-double-100-solution
+// 思路解析: https://github.com/grandyang/leetcode/issues/377
+func combinationSumIV(nums []int, target int) int {
+	sort.Ints(nums)
+	dp := make([]int, target+1)
+	dp[0] = 1
+	for i := 0; i <= target; i++ {
+		for _, v := range nums {
+			if i+v > target {
+				break
+			}
+
+			dp[i+v] += dp[i]
+		}
+	}
+	return dp[target]
 }
